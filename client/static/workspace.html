@@ -11,22 +11,29 @@
   <meta property="og:title" content="Місце A1 — біля вікна — Простір">
   <meta property="og:description" content="Робоче місце A1 біля вікна: опис, обладнання, ціна та форма бронювання на дату й час.">
   <meta property="og:image" content="../assets/images/hero-960.jpg">
+  <meta name="color-scheme" content="light dark">
   <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../assets/css/tokens.css">
+  <link rel="stylesheet" href="../assets/css/reset.css">
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
 </head>
 <body>
-  <header>
-    <a href="index.html">Простір</a>
-    <nav aria-label="Основна навігація">
-      <ul>
-        <li><a href="index.html">Головна</a></li>
-        <li><a href="catalog.html" aria-current="page">Каталог</a></li>
-        <li><a href="index.html#pricing">Послуги та ціни</a></li>
-        <li><a href="contacts.html">Контакти</a></li>
-      </ul>
-    </nav>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="index.html">Простір</a>
+      <nav aria-label="Основна навігація">
+        <ul class="nav-list">
+          <li><a href="index.html">Головна</a></li>
+          <li><a href="catalog.html" aria-current="page">Каталог</a></li>
+          <li><a href="index.html#pricing">Послуги та ціни</a></li>
+          <li><a href="contacts.html">Контакти</a></li>
+        </ul>
+      </nav>
+    </div>
   </header>
-  <main>
-    <nav aria-label="Хлібні крихти">
+  <main class="container page-with-aside">
+    <nav class="breadcrumbs" aria-label="Хлібні крихти">
       <ol>
         <li><a href="index.html">Головна</a></li>
         <li><a href="catalog.html">Каталог</a></li>
@@ -38,6 +45,7 @@
       <h1>Місце A1 — біля вікна</h1>
       <p>Open space · 1 особа · <data value="70">70 грн</data> / година</p>
 
+      <div class="gallery">
       <figure>
         <picture>
           <source type="image/webp" srcset="../assets/images/workspace-a1-400.webp 400w, ../assets/images/workspace-a1-800.webp 800w" sizes="(min-width: 768px) 50vw, 100vw">
@@ -52,6 +60,7 @@
         </picture>
         <figcaption>Загальний простір open space</figcaption>
       </figure>
+      </div>
 
       <section aria-labelledby="about-title">
         <h2 id="about-title">Опис</h2>
@@ -70,8 +79,8 @@
 
       <section aria-labelledby="booking-title">
         <h2 id="booking-title">Забронювати місце</h2>
-        <form action="workspace.html" method="get">
-          <fieldset>
+        <form class="form" action="workspace.html" method="get">
+          <fieldset class="fieldset--row">
             <legend>Дата та час</legend>
             <p>
               <label for="date">Дата</label>
@@ -105,12 +114,12 @@
             <input type="checkbox" id="b-consent" name="consent" required>
             <label for="b-consent">Погоджуюсь на обробку персональних даних</label>
           </p>
-          <p><button type="submit">Забронювати</button></p>
+          <p><button class="button" type="submit">Забронювати</button></p>
         </form>
       </section>
     </article>
 
-    <aside aria-labelledby="rules-title">
+    <aside class="panel" aria-labelledby="rules-title">
       <h2 id="rules-title">Умови бронювання</h2>
       <ul>
         <li>Бронювання на повні години, мінімум одна година.</li>
@@ -119,19 +128,21 @@
       </ul>
     </aside>
   </main>
-  <footer>
-    <nav aria-label="Нижня навігація">
-      <ul>
-        <li><a href="index.html">Головна</a></li>
-        <li><a href="catalog.html">Каталог</a></li>
-        <li><a href="contacts.html">Контакти</a></li>
-      </ul>
-    </nav>
-    <address>
-      <a href="mailto:hello@example.com">hello@example.com</a><br>
-      <a href="tel:+380000000000">+380 00 000 00 00</a>
-    </address>
-    <p><small>© <time datetime="2026">2026</time> Простір. Навчальний проєкт.</small></p>
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <nav aria-label="Нижня навігація">
+        <ul class="nav-list">
+          <li><a href="index.html">Головна</a></li>
+          <li><a href="catalog.html">Каталог</a></li>
+          <li><a href="contacts.html">Контакти</a></li>
+        </ul>
+      </nav>
+      <address>
+        <a href="mailto:hello@example.com">hello@example.com</a><br>
+        <a href="tel:+380000000000">+380 00 000 00 00</a>
+      </address>
+      <p><small>© <time datetime="2026">2026</time> Простір. Навчальний проєкт.</small></p>
+    </div>
   </footer>
 </body>
 </html>
