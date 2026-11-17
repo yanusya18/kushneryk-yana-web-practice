@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Контакти (Tailwind-версія) — Простір</title>
+  <meta name="description" content="Контакти коворкінгу, зверстані на Tailwind CSS для порівняння з чистим CSS (ПР 5).">
+  <meta name="robots" content="noindex">
+  <meta name="color-scheme" content="light dark">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../assets/css/tokens.css">
+  <link rel="stylesheet" href="../assets/css/tailwind.css">
+</head>
+<body class="min-h-screen">
+  <header class="border-b border-line bg-bg">
+    <div class="mx-auto flex w-full max-w-container flex-col items-start gap-2 px-[var(--gutter)] py-4 md:flex-row md:items-center md:justify-between">
+      <a class="text-lg font-extrabold text-ink no-underline hover:text-brand" href="index.html">Простір</a>
+      <nav aria-label="Основна навігація">
+        <ul class="flex flex-wrap gap-x-2 gap-y-1">
+          <li><a class="block rounded-full px-4 py-1 text-ink no-underline transition-colors hover:bg-surface hover:text-brand motion-reduce:transition-none" href="index.html">Головна</a></li>
+          <li><a class="block rounded-full px-4 py-1 text-ink no-underline transition-colors hover:bg-surface hover:text-brand motion-reduce:transition-none" href="catalog.html">Каталог</a></li>
+          <li><a class="block rounded-full px-4 py-1 text-ink no-underline transition-colors hover:bg-surface hover:text-brand motion-reduce:transition-none" href="index.html#pricing">Послуги та ціни</a></li>
+          <li><a class="block rounded-full bg-brand px-4 py-1 text-on-brand no-underline" href="contacts.tailwind.html" aria-current="page">Контакти</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="mx-auto w-full max-w-container px-[var(--gutter)] pb-12 pt-6 md:pb-16 md:pt-8 xl:pb-20">
+    <h1 class="text-[length:var(--fs-h1)] font-bold leading-tight tracking-tight">Контакти</h1>
+
+    <section class="mt-12 xl:mt-20" aria-labelledby="contact-form-title">
+      <h2 id="contact-form-title" class="text-[length:var(--fs-h2)] font-bold leading-tight tracking-tight">Напишіть нам</h2>
+      <form class="mt-6 grid max-w-2xl gap-6" action="contacts.tailwind.html" method="get">
+        <fieldset class="grid min-w-0 gap-4 rounded-md border border-line p-6">
+          <legend class="px-2 font-bold">Ваше повідомлення</legend>
+          <p>
+            <label class="mb-1 block font-semibold" for="c-name">Ім'я</label>
+            <input class="min-h-11 w-full rounded-sm border border-line-strong bg-bg px-4 py-2 text-ink transition hover:border-ink focus-visible:border-focus [&:user-invalid]:border-danger [&:user-invalid]:ring-1 [&:user-invalid]:ring-danger motion-reduce:transition-none" type="text" id="c-name" name="name" required minlength="2" maxlength="60" autocomplete="name">
+          </p>
+          <p>
+            <label class="mb-1 block font-semibold" for="c-email">Email</label>
+            <input class="min-h-11 w-full rounded-sm border border-line-strong bg-bg px-4 py-2 text-ink transition hover:border-ink focus-visible:border-focus [&:user-invalid]:border-danger [&:user-invalid]:ring-1 [&:user-invalid]:ring-danger motion-reduce:transition-none" type="email" id="c-email" name="email" required autocomplete="email">
+          </p>
+          <p>
+            <label class="mb-1 block font-semibold" for="c-phone">Телефон (необов'язково)</label>
+            <input class="min-h-11 w-full rounded-sm border border-line-strong bg-bg px-4 py-2 text-ink transition placeholder:text-muted hover:border-ink focus-visible:border-focus [&:user-invalid]:border-danger [&:user-invalid]:ring-1 [&:user-invalid]:ring-danger motion-reduce:transition-none" type="tel" id="c-phone" name="phone" pattern="\+380[0-9]{9}" title="Формат: +380XXXXXXXXX" placeholder="+380501234567" autocomplete="tel">
+          </p>
+          <p>
+            <label class="mb-1 block font-semibold" for="c-topic">Тема звернення</label>
+            <select class="min-h-11 w-full rounded-sm border border-line-strong bg-bg px-4 py-2 text-ink transition hover:border-ink focus-visible:border-focus [&:user-invalid]:border-danger motion-reduce:transition-none" id="c-topic" name="topic" required>
+              <option value="">Оберіть тему</option>
+              <option value="tour">Екскурсія по коворкінгу</option>
+              <option value="booking">Питання щодо бронювання</option>
+              <option value="team">Умови для команд</option>
+              <option value="other">Інше</option>
+            </select>
+          </p>
+          <p>
+            <label class="mb-1 block font-semibold" for="c-message">Повідомлення</label>
+            <textarea class="w-full resize-y rounded-sm border border-line-strong bg-bg px-4 py-2 text-ink transition hover:border-ink focus-visible:border-focus [&:user-invalid]:border-danger [&:user-invalid]:ring-1 [&:user-invalid]:ring-danger motion-reduce:transition-none" id="c-message" name="message" rows="5" required minlength="10" maxlength="1000"></textarea>
+          </p>
+        </fieldset>
+        <p>
+          <input class="mr-2 h-5 w-5 align-[-0.2em] accent-[var(--color-primary)]" type="checkbox" id="c-consent" name="consent" required>
+          <label for="c-consent">Погоджуюсь на обробку персональних даних</label>
+        </p>
+        <p><button class="inline-flex min-h-11 items-center justify-center rounded-full border-2 border-brand bg-brand px-6 py-2 font-semibold leading-tight text-on-brand transition hover:border-brand-hover hover:bg-brand-hover active:translate-y-px disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 motion-reduce:transition-none" type="submit">Надіслати</button></p>
+      </form>
+    </section>
+
+    <section class="mt-12 xl:mt-20" aria-labelledby="find-title">
+      <h2 id="find-title" class="text-[length:var(--fs-h2)] font-bold leading-tight tracking-tight">Як нас знайти</h2>
+      <address class="mt-6 not-italic">
+        вул. Прикладна, 1, м. Київ<br>
+        <a class="text-link hover:text-brand-hover" href="tel:+380000000000">+380 00 000 00 00</a><br>
+        <a class="text-link hover:text-brand-hover" href="mailto:hello@example.com">hello@example.com</a>
+      </address>
+      <p class="mt-4 max-w-prose">Працюємо щодня з <time datetime="08:00">08:00</time> до <time datetime="22:00">22:00</time>.</p>
+      <iframe class="mt-4 aspect-[16/10] h-auto w-full rounded-md border border-line" title="Мапа розташування коворкінгу" src="https://www.openstreetmap.org/export/embed.html?bbox=30.5100%2C50.4400%2C30.5400%2C50.4600&amp;layer=mapnik&amp;marker=50.4501%2C30.5234" width="600" height="350" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </section>
+  </main>
+
+  <footer class="mt-12 border-t border-line bg-surface">
+    <div class="mx-auto flex w-full max-w-container flex-col gap-4 px-[var(--gutter)] py-8 md:flex-row md:flex-wrap md:items-start md:justify-between md:gap-x-8">
+      <nav aria-label="Нижня навігація">
+        <ul class="flex flex-wrap gap-x-4 gap-y-1">
+          <li><a class="text-ink no-underline hover:underline" href="index.html">Головна</a></li>
+          <li><a class="text-ink no-underline hover:underline" href="catalog.html">Каталог</a></li>
+          <li><a class="text-ink no-underline hover:underline" href="contacts.html">Контакти</a></li>
+        </ul>
+      </nav>
+      <address class="not-italic">
+        <a class="text-link hover:text-brand-hover" href="mailto:hello@example.com">hello@example.com</a><br>
+        <a class="text-link hover:text-brand-hover" href="tel:+380000000000">+380 00 000 00 00</a>
+      </address>
+      <p><small class="text-sm">© <time datetime="2026">2026</time> Простір. Навчальний проєкт.</small></p>
+    </div>
+  </footer>
+</body>
+</html>

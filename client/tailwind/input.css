@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body { @apply bg-bg font-sans leading-relaxed text-ink antialiased; }
+  :focus-visible { outline: 3px solid var(--color-focus); outline-offset: 2px; border-radius: var(--radius-sm); }
+  @media (min-width: 768px) { body { font-size: 1.0625rem; } }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+}
