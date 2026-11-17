@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Каталог робочих місць — Простір</title>
+  <meta name="description" content="Усі робочі місця коворкінгу: open space, фіксовані місця, кабінети та переговорні з цінами за годину.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="uk_UA">
+  <meta property="og:site_name" content="Простір">
+  <meta property="og:title" content="Каталог робочих місць — Простір">
+  <meta property="og:description" content="Усі робочі місця коворкінгу: open space, фіксовані місця, кабінети та переговорні з цінами за годину.">
+  <meta property="og:image" content="../assets/images/hero-960.jpg">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+  <header>
+    <a href="index.html">Простір</a>
+    <nav aria-label="Основна навігація">
+      <ul>
+        <li><a href="index.html">Головна</a></li>
+        <li><a href="catalog.html" aria-current="page">Каталог</a></li>
+        <li><a href="index.html#pricing">Послуги та ціни</a></li>
+        <li><a href="contacts.html">Контакти</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <h1>Каталог робочих місць</h1>
+
+    <section aria-labelledby="filters-title">
+      <h2 id="filters-title">Пошук і фільтри</h2>
+      <form action="catalog.html" method="get">
+        <fieldset>
+          <legend>Параметри пошуку</legend>
+          <p>
+            <label for="search">Назва місця</label>
+            <input type="search" id="search" name="q" maxlength="60" placeholder="Наприклад, біля вікна">
+          </p>
+          <p>
+            <label for="type">Тип місця</label>
+            <select id="type" name="type">
+              <option value="">Усі типи</option>
+              <option value="open-space">Open space</option>
+              <option value="fixed-desk">Фіксоване місце</option>
+              <option value="private-office">Приватний кабінет</option>
+              <option value="meeting-room">Переговорна</option>
+            </select>
+          </p>
+          <p>
+            <label for="max-price">Максимальна ціна за годину, грн</label>
+            <input type="number" id="max-price" name="max_price" min="0" max="1000" step="10" inputmode="numeric">
+          </p>
+        </fieldset>
+        <p><button type="submit">Показати</button></p>
+      </form>
+    </section>
+
+    <section aria-labelledby="list-title">
+      <h2 id="list-title">Доступні місця</h2>
+        <article>
+          <figure>
+            <picture>
+              <source type="image/webp" srcset="../assets/images/workspace-a1-400.webp 400w, ../assets/images/workspace-a1-800.webp 800w" sizes="(min-width: 1280px) 384px, (min-width: 768px) 33vw, 100vw">
+              <img src="../assets/images/workspace-a1-800.jpg" width="800" height="600" alt="Робочий стіл з ноутбуком біля вікна у світлому open space" loading="lazy" decoding="async">
+            </picture>
+            <figcaption>Open space</figcaption>
+          </figure>
+          <h3>Місце A1 — біля вікна</h3>
+          <p>Незакріплене місце в спільному просторі з видом на вікно та природним світлом.</p>
+          <p><data value="70">70 грн</data> / година · 1 особа</p>
+          <p><a href="workspace.html">Детальніше та бронювання</a></p>
+        </article>
+        <article>
+          <figure>
+            <picture>
+              <source type="image/webp" srcset="../assets/images/workspace-a2-400.webp 400w, ../assets/images/workspace-a2-800.webp 800w" sizes="(min-width: 1280px) 384px, (min-width: 768px) 33vw, 100vw">
+              <img src="../assets/images/workspace-a2-800.jpg" width="800" height="600" alt="Робочий стіл з ноутбуком і рослиною в тихій зоні коворкінгу" loading="lazy" decoding="async">
+            </picture>
+            <figcaption>Open space</figcaption>
+          </figure>
+          <h3>Місце A2 — тиха зона</h3>
+          <p>Місце у тихій частині open space для зосередженої роботи без розмов.</p>
+          <p><data value="70">70 грн</data> / година · 1 особа</p>
+          <p><a href="workspace.html">Детальніше та бронювання</a></p>
+        </article>
+        <article>
+          <figure>
+            <picture>
+              <source type="image/webp" srcset="../assets/images/workspace-b1-400.webp 400w, ../assets/images/workspace-b1-800.webp 800w" sizes="(min-width: 1280px) 384px, (min-width: 768px) 33vw, 100vw">
+              <img src="../assets/images/workspace-b1-800.jpg" width="800" height="600" alt="Робочий стіл із зовнішнім монітором і настільною лампою" loading="lazy" decoding="async">
+            </picture>
+            <figcaption>Фіксоване місце</figcaption>
+          </figure>
+          <h3>Місце B1 — із монітором</h3>
+          <p>Закріплене за вами місце з великим зовнішнім монітором і настільною лампою.</p>
+          <p><data value="90">90 грн</data> / година · 1 особа</p>
+          <p><a href="workspace.html">Детальніше та бронювання</a></p>
+        </article>
+        <article>
+          <figure>
+            <picture>
+              <source type="image/webp" srcset="../assets/images/workspace-b2-400.webp 400w, ../assets/images/workspace-b2-800.webp 800w" sizes="(min-width: 1280px) 384px, (min-width: 768px) 33vw, 100vw">
+              <img src="../assets/images/workspace-b2-800.jpg" width="800" height="600" alt="Робочий стіл із монітором і лампою біля стіни" loading="lazy" decoding="async">
+            </picture>
+            <figcaption>Фіксоване місце</figcaption>
+          </figure>
+          <h3>Місце B2 — біля стіни</h3>
+          <p>Закріплене місце біля стіни, де менше проходів, із монітором і лампою.</p>
+          <p><data value="90">90 грн</data> / година · 1 особа</p>
+          <p><a href="workspace.html">Детальніше та бронювання</a></p>
+        </article>
+        <article>
+          <figure>
+            <picture>
+              <source type="image/webp" srcset="../assets/images/workspace-c1-400.webp 400w, ../assets/images/workspace-c1-800.webp 800w" sizes="(min-width: 1280px) 384px, (min-width: 768px) 33vw, 100vw">
+              <img src="../assets/images/workspace-c1-800.jpg" width="800" height="600" alt="Приватний кабінет із двома робочими столами та моніторами" loading="lazy" decoding="async">
+            </picture>
+            <figcaption>Приватний кабінет</figcaption>
+          </figure>
+          <h3>Кабінет C1 на 4 особи</h3>
+          <p>Окреме приміщення для невеликої команди з чотирма робочими столами.</p>
+          <p><data value="220">220 грн</data> / година · до 4 осіб</p>
+          <p><a href="workspace.html">Детальніше та бронювання</a></p>
+        </article>
+        <article>
+          <figure>
+            <picture>
+              <source type="image/webp" srcset="../assets/images/workspace-m1-400.webp 400w, ../assets/images/workspace-m1-800.webp 800w" sizes="(min-width: 1280px) 384px, (min-width: 768px) 33vw, 100vw">
+              <img src="../assets/images/workspace-m1-800.jpg" width="800" height="600" alt="Переговорна кімната з великим столом і стільцями" loading="lazy" decoding="async">
+            </picture>
+            <figcaption>Переговорна</figcaption>
+          </figure>
+          <h3>Переговорна M1</h3>
+          <p>Переговорна кімната зі столом, екраном і маркерною дошкою.</p>
+          <p><data value="300">300 грн</data> / година · до 8 осіб</p>
+          <p><a href="workspace.html">Детальніше та бронювання</a></p>
+        </article>
+    </section>
+  </main>
+  <footer>
+    <nav aria-label="Нижня навігація">
+      <ul>
+        <li><a href="index.html">Головна</a></li>
+        <li><a href="catalog.html">Каталог</a></li>
+        <li><a href="contacts.html">Контакти</a></li>
+      </ul>
+    </nav>
+    <address>
+      <a href="mailto:hello@example.com">hello@example.com</a><br>
+      <a href="tel:+380000000000">+380 00 000 00 00</a>
+    </address>
+    <p><small>© <time datetime="2026">2026</time> Простір. Навчальний проєкт.</small></p>
+  </footer>
+</body>
+</html>
