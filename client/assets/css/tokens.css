@@ -1,0 +1,134 @@
+/* ==========================================================================
+   tokens.css — дизайн-токени (CSS custom properties)
+   Структура: 1) примітиви (сирі значення)  2) семантичні токени для теми.
+   Теми: світла (за замовчуванням), темна через prefers-color-scheme
+   та через атрибут data-theme="dark" | "light" на <html>.
+   Коли будуть готові Figma Variables з ПР 3 — звірте значення з цим файлом.
+   ========================================================================== */
+
+:root {
+  /* ---------- 1. Примітиви ---------- */
+  /* Нейтральна шкала (10 відтінків) */
+  --neutral-50:  #f6f8f8;
+  --neutral-100: #edf1f2;
+  --neutral-200: #dce3e6;
+  --neutral-300: #c3cdd2;
+  --neutral-400: #93a2aa;
+  --neutral-500: #6b7c85;
+  --neutral-600: #4a5a63;
+  --neutral-700: #33434b;
+  --neutral-800: #1f2d33;
+  --neutral-900: #12191c;
+  --white: #ffffff;
+
+  /* Primary (глибокий бірюзовий) */
+  --primary-200: #9ed6e0;
+  --primary-300: #6fc1cf;
+  --primary-600: #1f5f6b;
+  --primary-700: #174b55;
+
+  /* Accent (теплий жовтий) */
+  --accent-400: #e2b64e;
+
+  /* Статуси */
+  --success-300: #6ccb8c;
+  --success-700: #1e6b3a;
+  --warning-300: #e2b64e;
+  --warning-700: #8a5a00;
+  --error-300:   #f2a29c;
+  --error-700:   #b3261e;
+
+  /* Відступи (4, 8, 16, 24, 32, 48 px) */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 1rem;
+  --space-4: 1.5rem;
+  --space-5: 2rem;
+  --space-6: 3rem;
+
+  /* Радіуси */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1.25rem;
+  --radius-full: 999px;
+
+  /* Типографіка */
+  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --fs-small: 0.875rem;
+  --fs-body: 1rem;
+  --fs-h4: 1.125rem;
+  --fs-h3: clamp(1.125rem, 1.05rem + 0.4vw, 1.375rem);
+  --fs-h2: clamp(1.375rem, 1.1rem + 1.2vw, 2rem);
+  --fs-h1: clamp(1.75rem, 1.2rem + 2.5vw, 3rem);
+  --lh-tight: 1.2;
+  --lh-body: 1.6;
+
+  /* Тіні, перехід, розміри */
+  --shadow-sm: 0 1px 2px rgb(18 25 28 / 0.08);
+  --shadow-md: 0 6px 20px rgb(18 25 28 / 0.10);
+  --transition: 180ms ease;
+  --container: 72rem;
+  --gutter: clamp(1rem, 4vw, 2rem);
+
+  /* ---------- 2. Семантичні токени: СВІТЛА тема ---------- */
+  color-scheme: light;
+  --color-bg:             var(--white);
+  --color-surface:        var(--neutral-50);
+  --color-text:           var(--neutral-900);
+  --color-muted:          var(--neutral-600);
+  --color-border:         var(--neutral-200);
+  --color-border-strong:  var(--neutral-500);   /* рамки полів форм (≥ 3:1) */
+  --color-primary:        var(--primary-600);
+  --color-primary-hover:  var(--primary-700);
+  --color-on-primary:     var(--white);
+  --color-link:           var(--primary-700);
+  --color-accent:         var(--accent-400);
+  --color-success:        var(--success-700);
+  --color-warning:        var(--warning-700);
+  --color-error:          var(--error-700);
+  --color-focus:          var(--primary-600);
+}
+
+/* ---------- ТЕМНА тема: за налаштуванням ОС (якщо не примусово світла) ---------- */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --color-bg:             var(--neutral-900);
+    --color-surface:        var(--neutral-800);
+    --color-text:           var(--neutral-50);
+    --color-muted:          var(--neutral-300);
+    --color-border:         var(--neutral-700);
+    --color-border-strong:  var(--neutral-500);
+    --color-primary:        var(--primary-300);
+    --color-primary-hover:  var(--primary-200);
+    --color-on-primary:     var(--neutral-900);
+    --color-link:           var(--primary-300);
+    --color-success:        var(--success-300);
+    --color-warning:        var(--warning-300);
+    --color-error:          var(--error-300);
+    --color-focus:          var(--primary-300);
+    --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
+    --shadow-md: 0 6px 20px rgb(0 0 0 / 0.45);
+  }
+}
+
+/* ---------- ТЕМНА тема: примусово через <html data-theme="dark"> ---------- */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --color-bg:             var(--neutral-900);
+  --color-surface:        var(--neutral-800);
+  --color-text:           var(--neutral-50);
+  --color-muted:          var(--neutral-300);
+  --color-border:         var(--neutral-700);
+  --color-border-strong:  var(--neutral-500);
+  --color-primary:        var(--primary-300);
+  --color-primary-hover:  var(--primary-200);
+  --color-on-primary:     var(--neutral-900);
+  --color-link:           var(--primary-300);
+  --color-success:        var(--success-300);
+  --color-warning:        var(--warning-300);
+  --color-error:          var(--error-300);
+  --color-focus:          var(--primary-300);
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
+  --shadow-md: 0 6px 20px rgb(0 0 0 / 0.45);
+}

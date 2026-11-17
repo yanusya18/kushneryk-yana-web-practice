@@ -12,38 +12,47 @@
   <meta property="og:title" content="Сторінку не знайдено — Простір">
   <meta property="og:description" content="Запитану сторінку не знайдено. Поверніться на головну сторінку коворкінгу.">
   <meta property="og:image" content="../assets/images/hero-960.jpg">
+  <meta name="color-scheme" content="light dark">
   <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../assets/css/tokens.css">
+  <link rel="stylesheet" href="../assets/css/reset.css">
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
 </head>
 <body>
-  <header>
-    <a href="index.html">Простір</a>
-    <nav aria-label="Основна навігація">
-      <ul>
-        <li><a href="index.html">Головна</a></li>
-        <li><a href="catalog.html">Каталог</a></li>
-        <li><a href="index.html#pricing">Послуги та ціни</a></li>
-        <li><a href="contacts.html">Контакти</a></li>
-      </ul>
-    </nav>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="index.html">Простір</a>
+      <nav aria-label="Основна навігація">
+        <ul class="nav-list">
+          <li><a href="index.html">Головна</a></li>
+          <li><a href="catalog.html">Каталог</a></li>
+          <li><a href="index.html#pricing">Послуги та ціни</a></li>
+          <li><a href="contacts.html">Контакти</a></li>
+        </ul>
+      </nav>
+    </div>
   </header>
-  <main>
+  <main class="container">
     <h1>Сторінку не знайдено</h1>
     <p>Схоже, такої сторінки не існує або її було переміщено.</p>
-    <p><a href="index.html">Повернутися на головну</a></p>
+    <p><a class="button" href="index.html">Повернутися на головну</a></p>
   </main>
-  <footer>
-    <nav aria-label="Нижня навігація">
-      <ul>
-        <li><a href="index.html">Головна</a></li>
-        <li><a href="catalog.html">Каталог</a></li>
-        <li><a href="contacts.html">Контакти</a></li>
-      </ul>
-    </nav>
-    <address>
-      <a href="mailto:hello@example.com">hello@example.com</a><br>
-      <a href="tel:+380000000000">+380 00 000 00 00</a>
-    </address>
-    <p><small>© <time datetime="2026">2026</time> Простір. Навчальний проєкт.</small></p>
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <nav aria-label="Нижня навігація">
+        <ul class="nav-list">
+          <li><a href="index.html">Головна</a></li>
+          <li><a href="catalog.html">Каталог</a></li>
+          <li><a href="contacts.html">Контакти</a></li>
+        </ul>
+      </nav>
+      <address>
+        <a href="mailto:hello@example.com">hello@example.com</a><br>
+        <a href="tel:+380000000000">+380 00 000 00 00</a>
+      </address>
+      <p><small>© <time datetime="2026">2026</time> Простір. Навчальний проєкт.</small></p>
+    </div>
   </footer>
 </body>
 </html>

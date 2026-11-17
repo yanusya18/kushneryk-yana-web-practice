@@ -1,0 +1,12 @@
+{
+  "name": "coworking-tailwind",
+  "private": true,
+  "description": "Збірка Tailwind CSS для сторінки contacts.tailwind.html (ПР 5)",
+  "scripts": {
+    "build": "tailwindcss -c tailwind.config.js -i input.css -o ../assets/css/tailwind.css --minify",
+    "watch": "tailwindcss -c tailwind.config.js -i input.css -o ../assets/css/tailwind.css --watch"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.17"
+  }
+}
