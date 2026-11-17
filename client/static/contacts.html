@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Контакти — Простір</title>
+  <meta name="description" content="Зв'яжіться з коворкінгом: форма звернення, адреса, телефон, години роботи та мапа.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="uk_UA">
+  <meta property="og:site_name" content="Простір">
+  <meta property="og:title" content="Контакти — Простір">
+  <meta property="og:description" content="Зв'яжіться з коворкінгом: форма звернення, адреса, телефон, години роботи та мапа.">
+  <meta property="og:image" content="../assets/images/hero-960.jpg">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+  <header>
+    <a href="index.html">Простір</a>
+    <nav aria-label="Основна навігація">
+      <ul>
+        <li><a href="index.html">Головна</a></li>
+        <li><a href="catalog.html">Каталог</a></li>
+        <li><a href="index.html#pricing">Послуги та ціни</a></li>
+        <li><a href="contacts.html" aria-current="page">Контакти</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <h1>Контакти</h1>
+
+    <section aria-labelledby="contact-form-title">
+      <h2 id="contact-form-title">Напишіть нам</h2>
+      <form action="contacts.html" method="get">
+        <fieldset>
+          <legend>Ваше повідомлення</legend>
+          <p>
+            <label for="c-name">Ім'я</label>
+            <input type="text" id="c-name" name="name" required minlength="2" maxlength="60" autocomplete="name">
+          </p>
+          <p>
+            <label for="c-email">Email</label>
+            <input type="email" id="c-email" name="email" required autocomplete="email">
+          </p>
+          <p>
+            <label for="c-phone">Телефон (необов'язково)</label>
+            <input type="tel" id="c-phone" name="phone" pattern="\+380[0-9]{9}" title="Формат: +380XXXXXXXXX" placeholder="+380501234567" autocomplete="tel">
+          </p>
+          <p>
+            <label for="c-topic">Тема звернення</label>
+            <select id="c-topic" name="topic" required>
+              <option value="">Оберіть тему</option>
+              <option value="tour">Екскурсія по коворкінгу</option>
+              <option value="booking">Питання щодо бронювання</option>
+              <option value="team">Умови для команд</option>
+              <option value="other">Інше</option>
+            </select>
+          </p>
+          <p>
+            <label for="c-message">Повідомлення</label>
+            <textarea id="c-message" name="message" rows="5" required minlength="10" maxlength="1000"></textarea>
+          </p>
+        </fieldset>
+        <p>
+          <input type="checkbox" id="c-consent" name="consent" required>
+          <label for="c-consent">Погоджуюсь на обробку персональних даних</label>
+        </p>
+        <p><button type="submit">Надіслати</button></p>
+      </form>
+    </section>
+
+    <section aria-labelledby="find-title">
+      <h2 id="find-title">Як нас знайти</h2>
+      <address>
+        вул. Прикладна, 1, м. Київ<br>
+        <a href="tel:+380000000000">+380 00 000 00 00</a><br>
+        <a href="mailto:hello@example.com">hello@example.com</a>
+      </address>
+      <p>Працюємо щодня з <time datetime="08:00">08:00</time> до <time datetime="22:00">22:00</time>.</p>
+      <iframe title="Мапа розташування коворкінгу" src="https://www.openstreetmap.org/export/embed.html?bbox=30.5100%2C50.4400%2C30.5400%2C50.4600&amp;layer=mapnik&amp;marker=50.4501%2C30.5234" width="600" height="350" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </section>
+  </main>
+  <footer>
+    <nav aria-label="Нижня навігація">
+      <ul>
+        <li><a href="index.html">Головна</a></li>
+        <li><a href="catalog.html">Каталог</a></li>
+        <li><a href="contacts.html">Контакти</a></li>
+      </ul>
+    </nav>
+    <address>
+      <a href="mailto:hello@example.com">hello@example.com</a><br>
+      <a href="tel:+380000000000">+380 00 000 00 00</a>
+    </address>
+    <p><small>© <time datetime="2026">2026</time> Простір. Навчальний проєкт.</small></p>
+  </footer>
+</body>
+</html>
