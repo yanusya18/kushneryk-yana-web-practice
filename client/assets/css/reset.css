@@ -1,0 +1,36 @@
+/* ==========================================================================
+   reset.css — сучасний мінімальний reset
+   ========================================================================== */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+* { margin: 0; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+img, picture, svg, video, iframe { display: block; max-width: 100%; }
+img, picture { height: auto; }
+
+input, button, textarea, select { font: inherit; color: inherit; }
+
+button { cursor: pointer; }
+
+h1, h2, h3, h4, p { overflow-wrap: break-word; }
+
+ul[class], ol[class] { list-style: none; padding: 0; }
+
+table { border-collapse: collapse; width: 100%; }
+
+fieldset { min-width: 0; }
+
+[hidden] { display: none !important; }
