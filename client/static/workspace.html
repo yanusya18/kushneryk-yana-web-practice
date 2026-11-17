@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Місце A1 — біля вікна — Простір</title>
+  <meta name="description" content="Робоче місце A1 біля вікна: опис, обладнання, ціна та форма бронювання на дату й час.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="uk_UA">
+  <meta property="og:site_name" content="Простір">
+  <meta property="og:title" content="Місце A1 — біля вікна — Простір">
+  <meta property="og:description" content="Робоче місце A1 біля вікна: опис, обладнання, ціна та форма бронювання на дату й час.">
+  <meta property="og:image" content="../assets/images/hero-960.jpg">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+  <header>
+    <a href="index.html">Простір</a>
+    <nav aria-label="Основна навігація">
+      <ul>
+        <li><a href="index.html">Головна</a></li>
+        <li><a href="catalog.html" aria-current="page">Каталог</a></li>
+        <li><a href="index.html#pricing">Послуги та ціни</a></li>
+        <li><a href="contacts.html">Контакти</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <nav aria-label="Хлібні крихти">
+      <ol>
+        <li><a href="index.html">Головна</a></li>
+        <li><a href="catalog.html">Каталог</a></li>
+        <li aria-current="page">Місце A1 — біля вікна</li>
+      </ol>
+    </nav>
+
+    <article>
+      <h1>Місце A1 — біля вікна</h1>
+      <p>Open space · 1 особа · <data value="70">70 грн</data> / година</p>
+
+      <figure>
+        <picture>
+          <source type="image/webp" srcset="../assets/images/workspace-a1-400.webp 400w, ../assets/images/workspace-a1-800.webp 800w" sizes="(min-width: 768px) 50vw, 100vw">
+          <img src="../assets/images/workspace-a1-800.jpg" width="800" height="600" alt="Робочий стіл з ноутбуком біля вікна у світлому open space" decoding="async">
+        </picture>
+        <figcaption>Місце A1 біля вікна з природним світлом</figcaption>
+      </figure>
+      <figure>
+        <picture>
+          <source type="image/webp" srcset="../assets/images/hero-480.webp 480w, ../assets/images/hero-960.webp 960w, ../assets/images/hero-1440.webp 1440w" sizes="(min-width: 768px) 50vw, 100vw">
+          <img src="../assets/images/hero-960.jpg" width="960" height="540" alt="Загальний вигляд open space коворкінгу" loading="lazy" decoding="async">
+        </picture>
+        <figcaption>Загальний простір open space</figcaption>
+      </figure>
+
+      <section aria-labelledby="about-title">
+        <h2 id="about-title">Опис</h2>
+        <p>Незакріплене місце в спільному просторі з видом на вікно та природним світлом. Поруч є кухня, зона відпочинку та принтер. Місце підходить для самостійної роботи, навчання й дзвінків у навушниках.</p>
+      </section>
+
+      <section aria-labelledby="amenities-title">
+        <h2 id="amenities-title">Обладнання</h2>
+        <ul>
+          <li>Швидкий Wi-Fi</li>
+          <li>Розетки біля столу</li>
+          <li>Ергономічне крісло</li>
+          <li>Настільна лампа</li>
+        </ul>
+      </section>
+
+      <section aria-labelledby="booking-title">
+        <h2 id="booking-title">Забронювати місце</h2>
+        <form action="workspace.html" method="get">
+          <fieldset>
+            <legend>Дата та час</legend>
+            <p>
+              <label for="date">Дата</label>
+              <input type="date" id="date" name="date" required>
+            </p>
+            <p>
+              <label for="start-time">Початок</label>
+              <input type="time" id="start-time" name="start_time" min="08:00" max="21:00" step="3600" required>
+            </p>
+            <p>
+              <label for="end-time">Завершення</label>
+              <input type="time" id="end-time" name="end_time" min="09:00" max="22:00" step="3600" required>
+            </p>
+          </fieldset>
+          <fieldset>
+            <legend>Ваші дані</legend>
+            <p>
+              <label for="b-name">Ім'я</label>
+              <input type="text" id="b-name" name="name" required minlength="2" maxlength="60" autocomplete="name">
+            </p>
+            <p>
+              <label for="b-email">Email</label>
+              <input type="email" id="b-email" name="email" required autocomplete="email">
+            </p>
+            <p>
+              <label for="b-phone">Телефон</label>
+              <input type="tel" id="b-phone" name="phone" required pattern="\+380[0-9]{9}" title="Формат: +380XXXXXXXXX" placeholder="+380501234567" autocomplete="tel">
+            </p>
+          </fieldset>
+          <p>
+            <input type="checkbox" id="b-consent" name="consent" required>
+            <label for="b-consent">Погоджуюсь на обробку персональних даних</label>
+          </p>
+          <p><button type="submit">Забронювати</button></p>
+        </form>
+      </section>
+    </article>
+
+    <aside aria-labelledby="rules-title">
+      <h2 id="rules-title">Умови бронювання</h2>
+      <ul>
+        <li>Бронювання на повні години, мінімум одна година.</li>
+        <li>Безкоштовне скасування за <time datetime="PT24H">24 години</time> до початку.</li>
+        <li>Робочі години: <time datetime="08:00">08:00</time>–<time datetime="22:00">22:00</time>.</li>
+      </ul>
+    </aside>
+  </main>
+  <footer>
+    <nav aria-label="Нижня навігація">
+      <ul>
+        <li><a href="index.html">Головна</a></li>
+        <li><a href="catalog.html">Каталог</a></li>
+        <li><a href="contacts.html">Контакти</a></li>
+      </ul>
+    </nav>
+    <address>
+      <a href="mailto:hello@example.com">hello@example.com</a><br>
+      <a href="tel:+380000000000">+380 00 000 00 00</a>
+    </address>
+    <p><small>© <time datetime="2026">2026</time> Простір. Навчальний проєкт.</small></p>
+  </footer>
+</body>
+</html>
