@@ -6,9 +6,11 @@ import Button from '../components/Button.jsx'
 import Modal from '../components/Modal.jsx'
 import Picture from '../components/Picture.jsx'
 import StateMessage from '../components/StateMessage.jsx'
-import { useDocumentTitle } from '../hooks/useDocumentTitle.js'
+import { useJsonLd, useSeo } from '../hooks/useSeo.js'
 import { useFetch } from '../hooks/useFetch.js'
+import { imageUrl } from '../utils/images.js'
 import { AMENITY_LABELS, formatCapacity, formatDate, TYPE_LABELS } from '../utils/format.js'
+import { buildWorkspaceDescription, buildWorkspaceJsonLd, getSiteUrl } from '../utils/seo.js'
 
 export default function WorkspacePage() {
   const { id } = useParams() // значення з адреси /items/:id
@@ -18,10 +20,26 @@ export default function WorkspacePage() {
   const fetchWorkspace = useCallback(() => (/^\d+$/.test(id) ? getWorkspaceById(id) : Promise.resolve(null)), [id])
   const { data: workspace, loading, error, refetch } = useFetch(fetchWorkspace)
 
-  useDocumentTitle(workspace?.name ?? 'Робоче місце')
+  // Унікальні title/description для кожного місця; для неіснуючого id — noindex
+  const notFound = !loading && !error && workspace === null
+  useSeo({
+    title: workspace?.name ?? (notFound ? 'Місце не знайдено' : 'Робоче місце'),
+    description: workspace ? buildWorkspaceDescription(workspace) : 'Сторінка робочого місця коворкінгу «Простір».',
+    noindex: notFound,
+  })
+  // Структуровані дані Schema.org (Product + Offer) — лише для сторінки існуючого місця
+  const siteUrl = getSiteUrl()
+  useJsonLd(
+    workspace
+      ? buildWorkspaceJsonLd(workspace, {
+          siteUrl,
+          imageUrl: new URL(imageUrl(`${workspace.image}-800.jpg`), siteUrl).href,
+        })
+      : null,
+  )
 
   return (
-    <main className="container page-with-aside">
+    <main id="main-content" tabIndex={-1} className="container page-with-aside">
       <nav className="breadcrumbs" aria-label="Хлібні крихти">
         <ol>
           <li><Link to="/">Головна</Link></li>

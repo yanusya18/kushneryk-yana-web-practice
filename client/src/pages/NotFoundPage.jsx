@@ -1,11 +1,12 @@
 import Button from '../components/Button.jsx'
-import { useDocumentTitle } from '../hooks/useDocumentTitle.js'
+import { useSeo } from '../hooks/useSeo.js'
 
 export default function NotFoundPage() {
-  useDocumentTitle('Сторінку не знайдено')
+  // noindex: сторінка помилки не повинна потрапляти в пошукову видачу
+  useSeo({ title: 'Сторінку не знайдено', description: 'Такої сторінки не існує або її було переміщено.', noindex: true })
 
   return (
-    <main className="container">
+    <main id="main-content" tabIndex={-1} className="container">
       <h1>Сторінку не знайдено</h1>
       <p>Схоже, такої сторінки не існує або її було переміщено.</p>
       <p>

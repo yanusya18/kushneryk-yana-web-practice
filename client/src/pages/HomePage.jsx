@@ -3,8 +3,11 @@ import { getWorkspaces } from '../api/api.js'
 import Button from '../components/Button.jsx'
 import CardList from '../components/CardList.jsx'
 import Picture from '../components/Picture.jsx'
-import { useDocumentTitle } from '../hooks/useDocumentTitle.js'
+import { useSeo } from '../hooks/useSeo.js'
 import { useFetch } from '../hooks/useFetch.js'
+
+const SEO_DESCRIPTION =
+  'Світлий коворкінг у Києві: оберіть робоче місце, перегляньте ціни та забронюйте його на потрібні дату й час онлайн за кілька хвилин.'
 
 const BENEFITS = [
   { title: 'Природне світло', text: 'Великі вікна та продумане освітлення без втоми для очей.' },
@@ -20,12 +23,12 @@ const PRICES = [
 ]
 
 export default function HomePage() {
-  useDocumentTitle('Коворкінг із бронюванням робочих місць')
+  useSeo({ title: null, description: SEO_DESCRIPTION })
   const { data, loading, error, refetch } = useFetch(getWorkspaces)
   const popular = (data ?? []).slice(0, 3)
 
   return (
-    <main className="container">
+    <main id="main-content" tabIndex={-1} className="container">
       <section className="hero" aria-labelledby="hero-title">
         <h1 id="hero-title">Коворкінг, де зручно працювати</h1>
         <p>

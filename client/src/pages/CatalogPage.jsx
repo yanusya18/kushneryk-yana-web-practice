@@ -5,7 +5,7 @@ import Button from '../components/Button.jsx'
 import CardList from '../components/CardList.jsx'
 import FilterForm from '../components/FilterForm.jsx'
 import { useDebounce } from '../hooks/useDebounce.js'
-import { useDocumentTitle } from '../hooks/useDocumentTitle.js'
+import { useSeo } from '../hooks/useSeo.js'
 import { useFetch } from '../hooks/useFetch.js'
 import { applyFilters, EMPTY_FILTERS, hasActiveFilters } from '../utils/catalog.js'
 
@@ -24,7 +24,11 @@ function readInitialFilters(params) {
 }
 
 export default function CatalogPage() {
-  useDocumentTitle('Каталог робочих місць')
+  useSeo({
+    title: 'Каталог робочих місць',
+    description:
+      'Каталог робочих місць коворкінгу: open space, фіксовані столи, приватні кабінети та переговорні. Фільтруйте за типом і ціною та бронюйте онлайн.',
+  })
   const [searchParams] = useSearchParams()
   const [filters, setFilters] = useState(() => readInitialFilters(searchParams))
   const searchRef = useRef(null)
@@ -53,7 +57,7 @@ export default function CatalogPage() {
   }
 
   return (
-    <main className="container">
+    <main id="main-content" tabIndex={-1} className="container">
       <h1>Каталог робочих місць</h1>
 
       <section aria-labelledby="filters-title">
