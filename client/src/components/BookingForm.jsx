@@ -1,10 +1,11 @@
 import { useCallback, useState } from 'react'
-import { clearStoredBookings, createBooking, getBookingsFor } from '../api/api.js'
+import { createBooking, getBookingsFor } from '../api/api.js'
 import { useFetch } from '../hooks/useFetch.js'
 import { useFormValidation } from '../hooks/useFormValidation.js'
 import { calcTotalPrice, durationHours, timeToMinutes } from '../utils/booking.js'
 import { buildBookingRules } from '../utils/bookingRules.js'
 import { formatDate, toDateString } from '../utils/format.js'
+import { mapServerErrors } from '../utils/serverErrors.js'
 import Button from './Button.jsx'
 import FormField from './FormField.jsx'
 
@@ -16,8 +17,20 @@ const INITIAL_VALUES = { date: '', start_time: '', end_time: '', name: '', email
  * Потік даних:
  *  1. Користувач обирає дату → useFetch завантажує зайняті години цього місця на цю дату;
  *  2. правила валідації (buildBookingRules) знають зайняті години й не дозволяють обрати час, що перетинається;
- *  3. submit → createBooking (повторна перевірка доступності) → onBooked(booking) відкриває підтвердження.
+ *  3. submit → POST /api/bookings: сервер ще раз перевіряє дані й доступність, рахує вартість
+ *     (409 — якщо хтось встиг забронювати цей час) → onBooked(booking) відкриває підтвердження.
  */
+
+// Назви полів у API → назви полів у формі
+const SERVER_FIELDS = {
+  date: 'date',
+  startTime: 'start_time',
+  endTime: 'end_time',
+  customerName: 'name',
+  customerEmail: 'email',
+  customerPhone: 'phone',
+  consent: 'consent',
+}
 export default function BookingForm({ workspace, onBooked }) {
   const form = useFormValidation(INITIAL_VALUES)
   const [submitting, setSubmitting] = useState(false)
@@ -68,7 +81,6 @@ export default function BookingForm({ workspace, onBooked }) {
         customerName: values.name.trim(),
         customerEmail: values.email.trim(),
         customerPhone: values.phone.trim(),
-        totalPrice: calcTotalPrice(workspace.pricePerHour, values.start_time, values.end_time),
       })
       // Дату лишаємо, щоб одразу було видно нову зайнятість
       form.reset({ ...INITIAL_VALUES, date: values.date })
@@ -78,18 +90,14 @@ export default function BookingForm({ workspace, onBooked }) {
       if (error.code === 'CONFLICT') {
         refetchBusy() // оновлюємо зайняті години й показуємо помилку біля поля часу
         form.setError('end_time', error.message)
+      } else if (error.code === 'VALIDATION') {
+        form.setServerErrors(mapServerErrors(error.errors, SERVER_FIELDS, 'end_time'))
       } else {
-        console.error(error)
-        form.setError('end_time', 'Не вдалося зберегти бронювання. Спробуйте ще раз.')
+        form.setError('end_time', error.message)
       }
     } finally {
       setSubmitting(false)
     }
-  }
-
-  function handleClearDemo() {
-    clearStoredBookings()
-    refetchBusy()
   }
 
   const field = (name) => ({
@@ -133,12 +141,6 @@ export default function BookingForm({ workspace, onBooked }) {
         <p className="form-note">Кнопка стане активною, коли форма заповнена коректно, а обраний час вільний.</p>
       </form>
 
-      <p className="form-note">
-        Демо-режим: бронювання зберігаються в цьому браузері.{' '}
-        <Button variant="secondary" onClick={handleClearDemo}>
-          Очистити мої бронювання
-        </Button>
-      </p>
     </>
   )
 }
