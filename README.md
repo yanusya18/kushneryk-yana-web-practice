@@ -1,6 +1,6 @@
 # Сайт коворкінгу — навчальна практика «WEB-технології та WEB-дизайн»
 
-> Статус: **ПР 6 — JavaScript: DOM, події, валідація, Fetch** (поточний етап).
+> Статус: **ПР 7 — клієнтська частина на React** (поточний етап).
 
 Навчальний веб-проєкт повного циклу: сайт коворкінгу, де користувач переглядає
 робочі місця, обирає місце та **бронює його на конкретну дату й час**.
@@ -26,7 +26,8 @@
 ```
 kushneryk-yana-web-practice/
 ├── client/
-│   ├── static/    # HTML-сторінки (ПР 4)
+│   ├── src/       # React-застосунок: components, pages, hooks, utils, api (ПР 7)
+│   ├── static/    # статичні HTML-сторінки (ПР 4–6)
 │   ├── assets/    # зображення, favicon, css/ (ПР 5), js/ і data/ (ПР 6)
 │   └── tailwind/  # збірка Tailwind для однієї сторінки (ПР 5)
 ├── server/        # Node.js + Express API (ПР 8)
@@ -42,24 +43,35 @@ kushneryk-yana-web-practice/
 - [Outline головної сторінки](docs/HTML-OUTLINE.md) · [Перевірка HTML](docs/VALIDATION.md)
 - [JavaScript: архітектура, запуск, сценарії](docs/JS-GUIDE.md)
 - [Дизайн-токени](docs/DESIGN-TOKENS.md) · [CSS vs Tailwind](docs/CSS-VS-TAILWIND.md) · [Скриншоти](docs/SCREENSHOTS-PR5.md)
+- [Дерево компонентів](docs/COMPONENT-TREE.md) · [AI-асистент](docs/AI.md)
 - Беклог задач: GitHub Projects + Issues (див. `docs/ISSUES.md`)
 
-## Запуск (поточний етап)
+## Запуск
 
-З ПР 6 сторінки використовують ES-модулі та `fetch`, тому **файл не можна відкривати подвійним кліком (`file://`)** — потрібен локальний сервер:
+Потрібен [Node.js](https://nodejs.org) 20+.
 
-- VS Code → розширення **Live Server** → правий клік на `client/static/index.html` → *Open with Live Server*;
-- або: `cd client && python -m http.server 8000` і відкрийте `http://localhost:8000/static/index.html`.
+```bash
+cd client
+npm install        # один раз
+npm run dev        # розробка: http://localhost:5173
+npm run build      # production-збірка в client/dist
+npm run preview    # перегляд збірки
+npm run lint       # перевірка коду (oxlint)
+```
 
-Дані беруться з `client/assets/data/*.json`; бронювання зберігаються в localStorage браузера (сервер — у ПР 8).
+Маршрути: `/` · `/catalog` · `/items/:id` · `/contacts` · будь-яка інша адреса → 404.
+Демо-режими станів: додайте до адреси `?demo=loading`, `?demo=error` або `?demo=empty`.
 
-### Tailwind (потрібен лише для перебудови `tailwind.css`)
+### Статична версія (ПР 4–6)
+Лишилась у `client/static/`. Відкривайте **через сервер** (Live Server або `npm run dev` → `/static/index.html`):
+з `file://` браузер блокує JavaScript-модулі.
+
+### Tailwind (лише для перебудови `tailwind.css`)
 ```bash
 cd client/tailwind
 npm install
-npm run build   # створить ../assets/css/tailwind.css
+npm run build
 ```
-Зібраний `tailwind.css` уже є в репозиторії, тому для перегляду `contacts.tailwind.html` збірка не потрібна.
 
 ## Посилання
 
