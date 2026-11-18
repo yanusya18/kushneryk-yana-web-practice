@@ -1,0 +1,18 @@
+{
+  "name": "coworking-server",
+  "version": "0.8.0",
+  "private": true,
+  "description": "REST API сайту коворкінгу (Express + JSON-файл)",
+  "type": "module",
+  "engines": { "node": ">=20.11" },
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "reset-db": "node scripts/reset-db.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^18.0.0",
+    "express": "^5.1.0"
+  }
+}
