@@ -8,7 +8,7 @@ git add client/assets/images client/src/utils/images.js client/src/components/Pi
 git commit -m "perf: add AVIF images with WebP and JPG fallbacks"
 git add client/src/App.jsx client/src/components/Layout.jsx
 git commit -m "perf: split routes with React.lazy and Suspense"
-git add client/src/utils/seo.js client/src/hooks/useSeo.js client/src/pages client/index.html
+git add client/src/utils/seo.js client/src/hooks/useSeo.js client/src/pages client/index.html  # у т.ч. ManagePage (noindex)
 git commit -m "feat: add per-route SEO meta, canonical, Open Graph and JSON-LD"
 git add client/scripts client/public client/package.json
 git commit -m "feat: generate robots.txt and sitemap.xml before build"

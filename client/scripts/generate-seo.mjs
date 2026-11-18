@@ -6,7 +6,7 @@
  *   SITE_URL=https://my-site.vercel.app npm run build
  * Якщо змінна не задана, використовується заглушка https://example.com — замініть її після деплою (ПР 10).
  */
-import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -14,8 +14,11 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const siteUrl = (process.env.SITE_URL || 'https://example.com').replace(/\/$/, '')
 const today = new Date().toISOString().slice(0, 10)
 
-// Сторінки робочих місць беремо з тих самих даних, що й сайт
-const workspaces = JSON.parse(readFileSync(resolve(root, 'assets/data/workspaces.json'), 'utf-8')).filter((w) => w.isActive)
+// Сторінки робочих місць беремо з початкових даних сервера (ПР 8); запасний варіант — JSON із ПР 6.
+// Місця, додані пізніше через /manage, у sitemap не потрапляють: його створює збірка, а не сервер.
+const sources = [resolve(root, '../server/data/workspaces.seed.json'), resolve(root, 'assets/data/workspaces.json')]
+const sourcePath = sources.find((path) => existsSync(path))
+const workspaces = JSON.parse(readFileSync(sourcePath, 'utf-8')).filter((w) => w.isActive)
 
 const pages = [
   { path: '/', priority: '1.0', changefreq: 'weekly' },
@@ -41,6 +44,7 @@ ${pages
 
 const robots = `User-agent: *
 Allow: /
+Disallow: /manage
 
 Sitemap: ${siteUrl}/sitemap.xml
 `

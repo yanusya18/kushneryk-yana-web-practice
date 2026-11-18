@@ -11,6 +11,7 @@ import HomePage from './pages/HomePage.jsx'
 const CatalogPage = lazy(() => import('./pages/CatalogPage.jsx'))
 const WorkspacePage = lazy(() => import('./pages/WorkspacePage.jsx'))
 const ContactsPage = lazy(() => import('./pages/ContactsPage.jsx'))
+const ManagePage = lazy(() => import('./pages/ManagePage.jsx'))
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage.jsx'))
 
 /**
@@ -19,6 +20,7 @@ const NotFoundPage = lazy(() => import('./pages/NotFoundPage.jsx'))
  *   /catalog     каталог
  *   /items/:id   деталі місця (:id — параметр адреси)
  *   /contacts    контакти
+ *   /manage      керування місцями (додавання й видалення через API)
  *   *            будь-яка інша адреса → 404
  */
 export default function App() {
@@ -29,6 +31,7 @@ export default function App() {
         <Route path="catalog" element={<CatalogPage />} />
         <Route path="items/:id" element={<WorkspacePage />} />
         <Route path="contacts" element={<ContactsPage />} />
+        <Route path="manage" element={<ManagePage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>

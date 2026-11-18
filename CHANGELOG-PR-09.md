@@ -1,6 +1,6 @@
 # CHANGELOG — ПР 9
 
-Основа: `coworking-pr-07.zip`. **ПР 8 (Express-API) у цій версії відсутня** — її робить окремо; папка `server/` не змінювалась.
+Основа: `coworking-pr-08.zip` (ПР 1–8). ПР 9 накладено поверх ПР 8; папка `server/` не змінювалась.
 
 ## Додано
 - **AVIF-зображення** (`client/assets/images/*.avif`) і підтримка в `Picture.jsx` / `images.js`.
@@ -19,8 +19,10 @@
 ## Не змінювалось
 Бізнес-логіка бронювання, дані, стилі ПР 5–6, `server/`.
 
-## Для злиття з ПР 8
-Ймовірні місця конфліктів: `client/package.json`, `README.md`, `client/src/api/api.js` (ПР 8 його перепише — ПР 9 його не чіпає), `WorkspacePage.jsx` / `ContactsPage.jsx` (ПР 9 змінив лише `<main>`, імпорти та виклики `useSeo`). `scripts/generate-seo.mjs` читає `client/assets/data/workspaces.json`; якщо ПР 8 перенесе дані на сервер, змініть там джерело (або залиште JSON як довідник адрес).
+## Злиття з ПР 8
+Конфліктні файли об'єднано вручну: `App.jsx` (додано lazy-маршрут `/manage`), `app.css` і `COMPONENT-TREE.md` (блоки обох ПР), `client/package.json` (скрипти ПР 9, версія 0.9.0), `README.md`.
+`ManagePage.jsx` переведено на `useSeo` (`noindex`) і `id="main-content"`; `/manage` виключено з `sitemap.xml` та закрито в `robots.txt` (`Disallow: /manage`).
+`scripts/generate-seo.mjs` бере перелік місць із `server/data/workspaces.seed.json` (запасне джерело — `client/assets/data/workspaces.json`).
 
 ## Свідомо не виконано мною
-Запуск Lighthouse/axe, `npm install`, `npm test`, `npm run build` (у середовищі немає мережі й залежностей) — див. звіт у чаті.
+Запуск Lighthouse/axe, `npm install`, `npm test`, `npm run build` і запуск Express-сервера (у середовищі немає мережі й залежностей) — див. звіт у чаті.
