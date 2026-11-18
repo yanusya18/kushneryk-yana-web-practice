@@ -1,10 +1,13 @@
 import { useState } from 'react'
 import { sendContactMessage } from '../api/api.js'
 import { useFormValidation } from '../hooks/useFormValidation.js'
+import { mapServerErrors } from '../utils/serverErrors.js'
 import { validateConsent, validateEmail, validateName, validatePhone, validateRequired } from '../utils/validators.js'
 import Button from './Button.jsx'
 import FormField from './FormField.jsx'
 import StateMessage from './StateMessage.jsx'
+
+const SERVER_FIELDS = { name: 'name', email: 'email', phone: 'phone', topic: 'topic', message: 'message', consent: 'consent' }
 
 const MIN_MESSAGE = 10
 const MAX_MESSAGE = 1000
@@ -56,12 +59,16 @@ export default function ContactForm() {
       })
       setResult({
         type: 'success',
-        text: `Дякуємо, ${values.name.trim()}! Повідомлення збережено (демо-режим). Надсилання на сервер з’явиться в ПР 8.`,
+        text: `Дякуємо, ${values.name.trim()}! Повідомлення надіслано — ми відповімо на вказаний email.`,
       })
       form.reset()
     } catch (error) {
-      console.error(error)
-      setResult({ type: 'error', text: 'Не вдалося зберегти повідомлення. Спробуйте ще раз.' })
+      if (error.code === 'VALIDATION') {
+        // Сервер знайшов помилки, яких не помітила клієнтська валідація, — показуємо їх біля полів
+        form.setServerErrors(mapServerErrors(error.errors, SERVER_FIELDS, 'message'))
+      } else {
+        setResult({ type: 'error', text: error.message })
+      }
     } finally {
       setSubmitting(false)
     }

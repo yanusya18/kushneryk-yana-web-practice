@@ -27,8 +27,10 @@ pnpm-debug.log*
 .eslintcache
 *.tsbuildinfo
 
-# Local data (створюється сервером; шаблон даних лежить в server/data/*.json у репозиторії)
-# server/data/*.local.json
+# Local data (створюється сервером автоматично; шаблон даних — server/data/workspaces.seed.json)
+server/data/db.json
+server/data/db.json.tmp
+server/data/*.local.json
 
 # Deploy platforms
 .vercel/
