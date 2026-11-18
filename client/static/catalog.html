@@ -17,12 +17,26 @@
   <link rel="stylesheet" href="../assets/css/reset.css">
   <link rel="stylesheet" href="../assets/css/base.css">
   <link rel="stylesheet" href="../assets/css/components.css">
+  <script>
+    /* Застосовує збережену тему до відмальовування сторінки (без «мигання»). */
+    try { var t = localStorage.getItem('coworking:theme'); if (t === 'dark' || t === 'light') document.documentElement.dataset.theme = t; } catch (e) {}
+  </script>
 </head>
 <body>
   <header class="site-header">
     <div class="container site-header__inner">
       <a class="brand" href="index.html">Простір</a>
-      <nav aria-label="Основна навігація">
+      <div class="site-header__controls">
+        <button class="theme-toggle" type="button" aria-pressed="false">
+          <span class="theme-toggle__icon" aria-hidden="true"></span>
+          <span class="theme-toggle__label">Темна тема</span>
+        </button>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+          <span class="nav-toggle__icon" aria-hidden="true"></span>
+          <span class="nav-toggle__label">Меню</span>
+        </button>
+      </div>
+      <nav id="site-nav" aria-label="Основна навігація">
         <ul class="nav-list">
           <li><a href="index.html">Головна</a></li>
           <li><a href="catalog.html" aria-current="page">Каталог</a></li>
@@ -37,114 +51,52 @@
 
     <section aria-labelledby="filters-title">
       <h2 id="filters-title">Пошук і фільтри</h2>
-      <form class="form" action="catalog.html" method="get">
+      <form class="form form--wide" id="filters-form" action="catalog.html" method="get">
         <fieldset>
           <legend>Параметри пошуку</legend>
-          <p>
-            <label for="search">Назва місця</label>
-            <input type="search" id="search" name="q" maxlength="60" placeholder="Наприклад, біля вікна">
-          </p>
-          <p>
-            <label for="type">Тип місця</label>
-            <select id="type" name="type">
-              <option value="">Усі типи</option>
-              <option value="open-space">Open space</option>
-              <option value="fixed-desk">Фіксоване місце</option>
-              <option value="private-office">Приватний кабінет</option>
-              <option value="meeting-room">Переговорна</option>
-            </select>
-          </p>
-          <p>
-            <label for="max-price">Максимальна ціна за годину, грн</label>
-            <input type="number" id="max-price" name="max_price" min="0" max="1000" step="10" inputmode="numeric">
-          </p>
+          <div class="filters-grid">
+            <p>
+              <label for="search">Назва місця</label>
+              <input type="search" id="search" name="q" maxlength="60" placeholder="Наприклад, біля вікна">
+            </p>
+            <p>
+              <label for="type">Тип місця</label>
+              <select id="type" name="type">
+                <option value="">Усі типи</option>
+                <option value="open-space">Open space</option>
+                <option value="fixed-desk">Фіксоване місце</option>
+                <option value="private-office">Приватний кабінет</option>
+                <option value="meeting-room">Переговорна</option>
+              </select>
+            </p>
+            <p>
+              <label for="max-price">Макс. ціна за годину, грн</label>
+              <input type="number" id="max-price" name="max_price" min="0" max="1000" step="10" inputmode="numeric">
+            </p>
+            <p>
+              <label for="sort">Сортування</label>
+              <select id="sort" name="sort">
+                <option value="default">За замовчуванням</option>
+                <option value="price-asc">Спочатку дешевші</option>
+                <option value="price-desc">Спочатку дорожчі</option>
+                <option value="name">За назвою</option>
+              </select>
+            </p>
+          </div>
         </fieldset>
-        <p><button class="button" type="submit">Показати</button></p>
+        <div class="filters-actions">
+          <button class="button" type="submit">Показати</button>
+          <button class="button button--secondary" id="filters-reset" type="button">Скинути</button>
+        </div>
       </form>
     </section>
 
     <section aria-labelledby="list-title">
       <h2 id="list-title">Доступні місця</h2>
-      <div class="card-grid">
-        <article class="card">
-          <figure>
-            <picture>
-              <source type="image/webp" srcset="../assets/images/workspace-a1-400.webp 400w, ../assets/images/workspace-a1-800.webp 800w" sizes="(min-width: 1280px) 384px, (min-width: 768px) 33vw, 100vw">
-              <img src="../assets/images/workspace-a1-800.jpg" width="800" height="600" alt="Робочий стіл з ноутбуком біля вікна у світлому open space" loading="lazy" decoding="async">
-            </picture>
-            <figcaption>Open space</figcaption>
-          </figure>
-          <h3>Місце A1 — біля вікна</h3>
-          <p>Незакріплене місце в спільному просторі з видом на вікно та природним світлом.</p>
-          <p><data value="70">70 грн</data> / година · 1 особа</p>
-          <p><a class="button button--secondary" href="workspace.html">Детальніше та бронювання</a></p>
-        </article>
-        <article class="card">
-          <figure>
-            <picture>
-              <source type="image/webp" srcset="../assets/images/workspace-a2-400.webp 400w, ../assets/images/workspace-a2-800.webp 800w" sizes="(min-width: 1280px) 384px, (min-width: 768px) 33vw, 100vw">
-              <img src="../assets/images/workspace-a2-800.jpg" width="800" height="600" alt="Робочий стіл з ноутбуком і рослиною в тихій зоні коворкінгу" loading="lazy" decoding="async">
-            </picture>
-            <figcaption>Open space</figcaption>
-          </figure>
-          <h3>Місце A2 — тиха зона</h3>
-          <p>Місце у тихій частині open space для зосередженої роботи без розмов.</p>
-          <p><data value="70">70 грн</data> / година · 1 особа</p>
-          <p><a class="button button--secondary" href="workspace.html">Детальніше та бронювання</a></p>
-        </article>
-        <article class="card">
-          <figure>
-            <picture>
-              <source type="image/webp" srcset="../assets/images/workspace-b1-400.webp 400w, ../assets/images/workspace-b1-800.webp 800w" sizes="(min-width: 1280px) 384px, (min-width: 768px) 33vw, 100vw">
-              <img src="../assets/images/workspace-b1-800.jpg" width="800" height="600" alt="Робочий стіл із зовнішнім монітором і настільною лампою" loading="lazy" decoding="async">
-            </picture>
-            <figcaption>Фіксоване місце</figcaption>
-          </figure>
-          <h3>Місце B1 — із монітором</h3>
-          <p>Закріплене за вами місце з великим зовнішнім монітором і настільною лампою.</p>
-          <p><data value="90">90 грн</data> / година · 1 особа</p>
-          <p><a class="button button--secondary" href="workspace.html">Детальніше та бронювання</a></p>
-        </article>
-        <article class="card">
-          <figure>
-            <picture>
-              <source type="image/webp" srcset="../assets/images/workspace-b2-400.webp 400w, ../assets/images/workspace-b2-800.webp 800w" sizes="(min-width: 1280px) 384px, (min-width: 768px) 33vw, 100vw">
-              <img src="../assets/images/workspace-b2-800.jpg" width="800" height="600" alt="Робочий стіл із монітором і лампою біля стіни" loading="lazy" decoding="async">
-            </picture>
-            <figcaption>Фіксоване місце</figcaption>
-          </figure>
-          <h3>Місце B2 — біля стіни</h3>
-          <p>Закріплене місце біля стіни, де менше проходів, із монітором і лампою.</p>
-          <p><data value="90">90 грн</data> / година · 1 особа</p>
-          <p><a class="button button--secondary" href="workspace.html">Детальніше та бронювання</a></p>
-        </article>
-        <article class="card">
-          <figure>
-            <picture>
-              <source type="image/webp" srcset="../assets/images/workspace-c1-400.webp 400w, ../assets/images/workspace-c1-800.webp 800w" sizes="(min-width: 1280px) 384px, (min-width: 768px) 33vw, 100vw">
-              <img src="../assets/images/workspace-c1-800.jpg" width="800" height="600" alt="Приватний кабінет із двома робочими столами та моніторами" loading="lazy" decoding="async">
-            </picture>
-            <figcaption>Приватний кабінет</figcaption>
-          </figure>
-          <h3>Кабінет C1 на 4 особи</h3>
-          <p>Окреме приміщення для невеликої команди з чотирма робочими столами.</p>
-          <p><data value="220">220 грн</data> / година · до 4 осіб</p>
-          <p><a class="button button--secondary" href="workspace.html">Детальніше та бронювання</a></p>
-        </article>
-        <article class="card">
-          <figure>
-            <picture>
-              <source type="image/webp" srcset="../assets/images/workspace-m1-400.webp 400w, ../assets/images/workspace-m1-800.webp 800w" sizes="(min-width: 1280px) 384px, (min-width: 768px) 33vw, 100vw">
-              <img src="../assets/images/workspace-m1-800.jpg" width="800" height="600" alt="Переговорна кімната з великим столом і стільцями" loading="lazy" decoding="async">
-            </picture>
-            <figcaption>Переговорна</figcaption>
-          </figure>
-          <h3>Переговорна M1</h3>
-          <p>Переговорна кімната зі столом, екраном і маркерною дошкою.</p>
-          <p><data value="300">300 грн</data> / година · до 8 осіб</p>
-          <p><a class="button button--secondary" href="workspace.html">Детальніше та бронювання</a></p>
-        </article>
-      </div>
+      <p class="results-count" id="results-count" role="status"></p>
+      <div id="catalog-state" class="state" role="status" hidden></div>
+      <div class="card-grid" id="workspace-list" aria-live="polite" aria-busy="true"></div>
+      <noscript><p>Для перегляду каталогу потрібен увімкнений JavaScript.</p></noscript>
     </section>
   </main>
   <footer class="site-footer">
@@ -163,5 +115,7 @@
       <p><small>© <time datetime="2026">2026</time> Простір. Навчальний проєкт.</small></p>
     </div>
   </footer>
+  <script type="module" src="../assets/js/main.js"></script>
+  <script type="module" src="../assets/js/catalog.js"></script>
 </body>
 </html>
