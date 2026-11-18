@@ -258,6 +258,19 @@ address { font-style: normal; }
   transition: background-color var(--transition), border-color var(--transition);
 }
 .js .nav-toggle, .js .theme-toggle { display: inline-flex; }
+
+/* На екранах уже за 480 px підпис «Темна тема» залишається лише для екранних читачів (видима іконка),
+   інакше шапка з двома кнопками виходить за межі екрана шириною 360 px. */
+@media (max-width: 479px) {
+  .theme-toggle__label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
 .nav-toggle:hover, .theme-toggle:hover { background: var(--color-surface); border-color: var(--color-text); }
 
 /* «Три смужки» бургера — лише CSS */
