@@ -1,6 +1,6 @@
 # Сайт коворкінгу — навчальна практика «WEB-технології та WEB-дизайн»
 
-> Статус: **ПР 5 — CSS3, адаптивна верстка, темна тема, Tailwind** (поточний етап).
+> Статус: **ПР 6 — JavaScript: DOM, події, валідація, Fetch** (поточний етап).
 
 Навчальний веб-проєкт повного циклу: сайт коворкінгу, де користувач переглядає
 робочі місця, обирає місце та **бронює його на конкретну дату й час**.
@@ -27,7 +27,7 @@
 kushneryk-yana-web-practice/
 ├── client/
 │   ├── static/    # HTML-сторінки (ПР 4)
-│   ├── assets/    # зображення, favicon, css/ (ПР 5)
+│   ├── assets/    # зображення, favicon, css/ (ПР 5), js/ і data/ (ПР 6)
 │   └── tailwind/  # збірка Tailwind для однієї сторінки (ПР 5)
 ├── server/        # Node.js + Express API (ПР 8)
 ├── docs/          # документація: TZ.md, UX.md, API.md, AI.md, AUDIT.md ...
@@ -40,14 +40,18 @@ kushneryk-yana-web-practice/
 
 - [Технічне завдання](docs/TZ.md)
 - [Outline головної сторінки](docs/HTML-OUTLINE.md) · [Перевірка HTML](docs/VALIDATION.md)
+- [JavaScript: архітектура, запуск, сценарії](docs/JS-GUIDE.md)
 - [Дизайн-токени](docs/DESIGN-TOKENS.md) · [CSS vs Tailwind](docs/CSS-VS-TAILWIND.md) · [Скриншоти](docs/SCREENSHOTS-PR5.md)
 - Беклог задач: GitHub Projects + Issues (див. `docs/ISSUES.md`)
 
 ## Запуск (поточний етап)
 
-Сторінки статичні. Відкрийте `client/static/index.html` у браузері
-або запустіть Live Server у VS Code (правий клік по файлу → *Open with Live Server*).
-Стилі підключені (`client/assets/css/`). JavaScript з'явиться в ПР 6.
+З ПР 6 сторінки використовують ES-модулі та `fetch`, тому **файл не можна відкривати подвійним кліком (`file://`)** — потрібен локальний сервер:
+
+- VS Code → розширення **Live Server** → правий клік на `client/static/index.html` → *Open with Live Server*;
+- або: `cd client && python -m http.server 8000` і відкрийте `http://localhost:8000/static/index.html`.
+
+Дані беруться з `client/assets/data/*.json`; бронювання зберігаються в localStorage браузера (сервер — у ПР 8).
 
 ### Tailwind (потрібен лише для перебудови `tailwind.css`)
 ```bash
