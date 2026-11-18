@@ -1,11 +1,14 @@
 import ContactForm from '../components/ContactForm.jsx'
-import { useDocumentTitle } from '../hooks/useDocumentTitle.js'
+import { useSeo } from '../hooks/useSeo.js'
 
 export default function ContactsPage() {
-  useDocumentTitle('Контакти')
+  useSeo({
+    title: 'Контакти',
+    description: 'Контакти коворкінгу «Простір»: адреса, телефон, email та форма зв’язку. Працюємо щодня з 08:00 до 22:00.',
+  })
 
   return (
-    <main className="container">
+    <main id="main-content" tabIndex={-1} className="container">
       <h1>Контакти</h1>
 
       <section aria-labelledby="contact-form-title">

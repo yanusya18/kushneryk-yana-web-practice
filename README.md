@@ -1,6 +1,6 @@
 # Сайт коворкінгу — навчальна практика «WEB-технології та WEB-дизайн»
 
-> Статус: **ПР 8 — серверна частина на Node.js (REST API)** (поточний етап).
+> Статус: **ПР 9 — тестування, Lighthouse, SEO, a11y** (поточний етап; ПР 8 — серверна частина — розробляється окремо).
 
 Навчальний веб-проєкт повного циклу: сайт коворкінгу, де користувач переглядає
 робочі місця, обирає місце та **бронює його на конкретну дату й час**.
@@ -30,7 +30,7 @@ kushneryk-yana-web-practice/
 │   ├── static/    # статичні HTML-сторінки (ПР 4–6)
 │   ├── assets/    # зображення, favicon, css/ (ПР 5), js/ і data/ (ПР 6)
 │   └── tailwind/  # збірка Tailwind для однієї сторінки (ПР 5)
-├── server/        # Node.js + Express REST API (src/, data/, scripts/) (ПР 8)
+├── server/        # Node.js + Express API (ПР 8)
 ├── docs/          # документація: TZ.md, UX.md, API.md, AI.md, AUDIT.md ...
 ├── .gitignore
 ├── LICENSE
@@ -39,40 +39,31 @@ kushneryk-yana-web-practice/
 
 ## Документація
 
+- [Аудит: Lighthouse, SEO, a11y (ПР 9)](docs/AUDIT.md)
+- [Чек-лист ручного тестування](docs/TEST-CHECKLIST.md)
 - [Технічне завдання](docs/TZ.md)
 - [Outline головної сторінки](docs/HTML-OUTLINE.md) · [Перевірка HTML](docs/VALIDATION.md)
 - [JavaScript: архітектура, запуск, сценарії](docs/JS-GUIDE.md)
 - [Дизайн-токени](docs/DESIGN-TOKENS.md) · [CSS vs Tailwind](docs/CSS-VS-TAILWIND.md) · [Скриншоти](docs/SCREENSHOTS-PR5.md)
 - [Дерево компонентів](docs/COMPONENT-TREE.md) · [AI-асистент](docs/AI.md)
-- [REST API](docs/API.md) · [Тестування в Postman](docs/POSTMAN.md)
 - Беклог задач: GitHub Projects + Issues (див. `docs/ISSUES.md`)
 
 ## Запуск
 
-Потрібен [Node.js](https://nodejs.org) 20.11+. Потрібні **два термінали**: сервер і клієнт.
+Потрібен [Node.js](https://nodejs.org) 20+.
 
-**1. Сервер (API)** — `http://localhost:3001`
-```bash
-cd server
-npm install
-cp .env.example .env      # Windows (cmd): copy .env.example .env
-npm run dev               # розробка з автоперезапуском; npm start — звичайний запуск
-```
-Перевірка: відкрийте `http://localhost:3001/api/health` → `{"status":"ok"}`.
-Скинути дані до початкових: `npm run reset-db`.
-
-**2. Клієнт (React)** — `http://localhost:5173`
 ```bash
 cd client
-npm install
-cp .env.example .env      # адреса API: VITE_API_URL=http://localhost:3001
-npm run dev
+npm install        # один раз
+npm run dev        # розробка: http://localhost:5173
+npm run build      # production-збірка в client/dist
+npm run preview    # перегляд збірки
+npm run lint       # перевірка коду (oxlint)
+npm test           # автотести Vitest (див. docs/AUDIT.md — спершу встановіть dev-залежності)
 ```
-Інші команди клієнта: `npm run build` · `npm run preview` · `npm run lint`.
 
-Маршрути сайту: `/` · `/catalog` · `/items/:id` · `/contacts` · `/manage` (додавання й видалення місць) · інші адреси → 404.
-Демо-режими станів: `?demo=loading`, `?demo=error`, `?demo=empty`.
-Документація API: [docs/API.md](docs/API.md).
+Маршрути: `/` · `/catalog` · `/items/:id` · `/contacts` · будь-яка інша адреса → 404.
+Демо-режими станів: додайте до адреси `?demo=loading`, `?demo=error` або `?demo=empty`.
 
 ### Статична версія (ПР 4–6)
 Лишилась у `client/static/`. Відкривайте **через сервер** (Live Server або `npm run dev` → `/static/index.html`):

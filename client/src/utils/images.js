@@ -3,7 +3,7 @@
  * import.meta.glob підключає всі файли на етапі збірки: Vite дає кожному хешоване ім'я
  * (кешування в браузері) і копіює їх у dist. Файли не дублюються.
  */
-const files = import.meta.glob('../../assets/images/*.{jpg,webp}', {
+const files = import.meta.glob('../../assets/images/*.{jpg,webp,avif}', {
   eager: true,
   query: '?url',
   import: 'default',
