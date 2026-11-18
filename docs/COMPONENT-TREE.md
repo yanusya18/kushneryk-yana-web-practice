@@ -30,17 +30,12 @@ main.jsx                      — точка входу: підключає CSS,
       ├─ [/contacts]    ContactsPage
       │   └─ ContactForm ─ FormField ×6, Button, StateMessage
       │
-      ├─ [/manage]      ManagePage                       (ПР 8: CRUD через API)
-      │   ├─ WorkspaceForm ─ FormField ×12, Button       (POST /api/items)
-      │   ├─ StateMessage, Button
-      │   └─ Modal ─ Button ×2                           (підтвердження видалення)
-      │
       ├─ [*]            NotFoundPage ─ Button
       │
       └─ Footer
 ```
 
-## Компоненти (15) і що вони роблять
+## Компоненти (14) і що вони роблять
 
 | Компонент | Призначення | Основні props | Власний стан (`useState`) |
 |---|---|---|---|
@@ -58,7 +53,6 @@ main.jsx                      — точка входу: підключає CSS,
 | `FilterForm` | Пошук і фільтри каталогу | `filters`, `onChange`, `onReset` | — |
 | `BookingForm` | Бронювання на дату й час | `workspace`, `onBooked` | `submitting` + форма |
 | `ContactForm` | Контактна форма | — | `result`, `submitting` + форма |
-| `WorkspaceForm` | Додавання робочого місця (ПР 8) | `onCreated` | `submitting`, `failure` + форма |
 
 ## Власні хуки (`src/hooks/`)
 
@@ -73,7 +67,7 @@ main.jsx                      — точка входу: підключає CSS,
 ## Потік даних
 
 ```
-api.js (fetch → REST API, ПР 8)
+api.js (fetch JSON / localStorage)
    ↑ викликає
 useFetch(getWorkspaces) ──► CatalogPage ──props──► CardList ──props──► Card
                                  ▲
@@ -89,7 +83,13 @@ useFetch(getWorkspaces) ──► CatalogPage ──props──► CardList ─�
 |---|---|
 | `ui.js`: бургер, тема, модалка | `Header`, `ThemeToggle` + `useTheme`, `Modal` |
 | `form.js`: `initFormValidation` | `useFormValidation` + `FormField` + `utils/validators.js` |
-| `api.js`: `fetch`, демо-режими, бронювання | `api/api.js` (з ПР 8 — запити до Express API) + `useFetch` |
+| `api.js`: `fetch`, демо-режими, бронювання | `api/api.js` (той самий інтерфейс) + `useFetch` |
 | `booking.js` | `utils/booking.js` (без змін) |
 | `catalog.js`: `render()` вручну | `CatalogPage` (стан → розмітка автоматично) |
 | `workspace.js`, `contacts.js` | `WorkspacePage` + `BookingForm`, `ContactsPage` + `ContactForm` |
+
+## Зміни ПР 9
+- `App` підключає `CatalogPage`, `WorkspacePage`, `ContactsPage`, `NotFoundPage` через `React.lazy` (code splitting); `HomePage` — звичайним імпортом.
+- `Layout` отримав skip-link, «якір фокуса», `aria-live`-оголошення назви сторінки й `Suspense` із запасним вмістом.
+- `Picture` віддає AVIF → WebP → JPG.
+- Сторінки викликають `useSeo` (title/description/canonical/Open Graph/robots); `WorkspacePage` додатково `useJsonLd`.
