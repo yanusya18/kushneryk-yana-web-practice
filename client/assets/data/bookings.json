@@ -1,0 +1,7 @@
+[
+  { "id": 1001, "workspaceId": 1, "dayOffset": 1, "startTime": "10:00", "endTime": "13:00", "status": "confirmed" },
+  { "id": 1002, "workspaceId": 1, "dayOffset": 1, "startTime": "15:00", "endTime": "17:00", "status": "confirmed" },
+  { "id": 1003, "workspaceId": 3, "dayOffset": 2, "startTime": "09:00", "endTime": "12:00", "status": "confirmed" },
+  { "id": 1004, "workspaceId": 5, "dayOffset": 1, "startTime": "11:00", "endTime": "14:00", "status": "confirmed" },
+  { "id": 1005, "workspaceId": 6, "dayOffset": 3, "startTime": "14:00", "endTime": "16:00", "status": "confirmed" }
+]
