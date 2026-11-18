@@ -5,12 +5,13 @@
 /* ---------- Шапка і навігація (Flexbox) ---------- */
 .site-header { border-bottom: 1px solid var(--color-border); background: var(--color-bg); }
 .site-header__inner {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  display: grid;
+  grid-template-columns: 1fr auto;   /* бренд ліворуч, кнопки праворуч, меню — окремим рядком */
+  align-items: center;
   gap: var(--space-2);
   padding-block: var(--space-3);
 }
+.site-header__inner > nav { grid-column: 1 / -1; }
 .brand { font-weight: 800; font-size: var(--fs-h4); text-decoration: none; color: var(--color-text); }
 .brand:hover { color: var(--color-primary); }
 
@@ -208,7 +209,10 @@ address { font-style: normal; }
    Адаптив: ≥ 768 px (планшет)
    ========================================================================== */
 @media (min-width: 768px) {
-  .site-header__inner { flex-direction: row; align-items: center; justify-content: space-between; }
+  .site-header__inner { display: flex; align-items: center; gap: var(--space-4); }
+  .brand { margin-right: auto; }
+  .site-header__inner > nav { order: 2; }
+  .site-header__controls { order: 3; }
   .hero { grid-template-columns: 1fr 1fr; column-gap: var(--space-6); align-content: center; align-items: center; }
   .hero > * { grid-column: 1; }
   .hero > picture { grid-column: 2; grid-row: 1 / span 3; }
@@ -228,4 +232,141 @@ address { font-style: normal; }
   .page-with-aside > .breadcrumbs { grid-column: 1 / -1; }
   .page-with-aside > aside { position: sticky; top: var(--space-4); }
   .page-with-aside > * + * { margin-top: 0; }
+}
+
+
+/* ==========================================================================
+   ПР 6 — стилі для інтерактивних елементів (JavaScript)
+   ========================================================================== */
+
+/* ---------- Кнопки шапки: бургер і перемикач теми (видимі лише коли працює JS) ---------- */
+.site-header__controls { display: flex; align-items: center; gap: var(--space-2); }
+.nav-toggle, .theme-toggle {
+  display: none;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 2.75rem;
+  padding: var(--space-1) var(--space-3);
+  background: transparent;
+  color: var(--color-text);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-full);
+  font: inherit;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color var(--transition), border-color var(--transition);
+}
+.js .nav-toggle, .js .theme-toggle { display: inline-flex; }
+.nav-toggle:hover, .theme-toggle:hover { background: var(--color-surface); border-color: var(--color-text); }
+
+/* «Три смужки» бургера — лише CSS */
+.nav-toggle__icon,
+.nav-toggle__icon::before,
+.nav-toggle__icon::after {
+  display: block; width: 1.125rem; height: 2px;
+  background: currentColor; border-radius: 2px;
+  transition: transform var(--transition), background-color var(--transition);
+}
+.nav-toggle__icon { position: relative; }
+.nav-toggle__icon::before, .nav-toggle__icon::after { content: ""; position: absolute; left: 0; }
+.nav-toggle__icon::before { top: -6px; }
+.nav-toggle__icon::after { top: 6px; }
+.nav-toggle[aria-expanded="true"] .nav-toggle__icon { background: transparent; }
+.nav-toggle[aria-expanded="true"] .nav-toggle__icon::before { top: 0; transform: rotate(45deg); }
+.nav-toggle[aria-expanded="true"] .nav-toggle__icon::after { top: 0; transform: rotate(-45deg); }
+
+/* Індикатор перемикача теми: кружок, що зсувається при aria-pressed="true" */
+.theme-toggle__icon {
+  position: relative; display: block; flex: none;
+  width: 2rem; height: 1.125rem;
+  border: 2px solid currentColor; border-radius: var(--radius-full);
+}
+.theme-toggle__icon::after {
+  content: ""; position: absolute; top: 1px; left: 1px;
+  width: 0.75rem; height: 0.75rem; border-radius: 50%;
+  background: currentColor;
+  transition: transform var(--transition);
+}
+.theme-toggle[aria-pressed="true"] .theme-toggle__icon::after { transform: translateX(0.875rem); }
+
+/* Мобільне меню: з JS сховане, поки не відкрите; без JS видиме завжди */
+.js #site-nav:not(.is-open) { display: none; }
+.js #site-nav .nav-list { flex-direction: column; }
+.js #site-nav .nav-list a { padding-block: var(--space-2); }
+
+/* ---------- Каталог: фільтри ---------- */
+.filters-grid { display: grid; gap: var(--space-3); }
+.filters-actions { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+.form.form--wide { max-width: none; }
+.results-count { color: var(--color-muted); min-height: 1.6em; }
+
+/* ---------- Клікабельні картки ---------- */
+.card-grid--clickable .card { cursor: pointer; }
+
+/* ---------- Блоки станів: завантаження, помилка, порожньо, успіх ---------- */
+.state {
+  display: grid; justify-items: start; gap: var(--space-2);
+  padding: var(--space-4);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+.state[hidden] { display: none; }
+.state--error { border-color: var(--color-error); }
+.state--error strong { color: var(--color-error); }
+.state--success { border-color: var(--color-success); color: var(--color-text); }
+.spinner {
+  width: 1.75rem; height: 1.75rem;
+  border: 3px solid var(--color-border);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ---------- Помилки полів форми ---------- */
+.field-error { min-height: 1.5em; margin-top: var(--space-1); color: var(--color-error); font-size: var(--fs-small); font-weight: 600; } /* місце зарезервоване, щоб макет не «стрибав» */
+input[aria-invalid="true"], select[aria-invalid="true"], textarea[aria-invalid="true"] {
+  border-color: var(--color-error);
+  box-shadow: 0 0 0 1px var(--color-error);
+}
+.field-counter { color: var(--color-muted); font-size: var(--fs-small); }
+
+/* ---------- Бронювання: підказка про доступність і вартість ---------- */
+.booking-info {
+  min-height: 6.5rem;                 /* стабільна висота, щоб кнопка не зсувалась */
+  padding: var(--space-3);
+  background: var(--color-surface);
+  border: 1px dashed var(--color-border-strong);
+  border-radius: var(--radius-md);
+}
+.booking-info p + p { margin-top: var(--space-1); font-weight: 700; }
+.form-note { color: var(--color-muted); font-size: var(--fs-small); }
+
+/* ---------- Модальне вікно (<dialog>) ---------- */
+.modal {
+  width: min(32rem, calc(100% - 2rem));
+  padding: var(--space-5);
+  background: var(--color-bg);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+.modal::backdrop { background: rgb(18 25 28 / 0.6); }
+.modal h2 { font-size: var(--fs-h3); }
+.modal > * + * { margin-top: var(--space-3); }
+.summary { display: grid; gap: var(--space-2); }
+.summary div { display: flex; justify-content: space-between; gap: var(--space-3); padding-bottom: var(--space-2); border-bottom: 1px solid var(--color-border); }
+.summary dt { color: var(--color-muted); }
+.summary dd { font-weight: 700; text-align: right; }
+
+/* ---------- Додатковий адаптив для ПР 6 ---------- */
+@media (min-width: 768px) {
+  .nav-toggle { display: none !important; }              /* на ширших екранах меню завжди видиме */
+  .js #site-nav:not(.is-open) { display: block; }
+  .js #site-nav .nav-list { flex-direction: row; }
+  .js #site-nav .nav-list a { padding-block: var(--space-1); }
+  .filters-grid { grid-template-columns: 2fr 1fr 1fr 1fr; align-items: end; }
 }
