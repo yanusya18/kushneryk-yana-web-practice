@@ -18,12 +18,26 @@
   <link rel="stylesheet" href="../assets/css/reset.css">
   <link rel="stylesheet" href="../assets/css/base.css">
   <link rel="stylesheet" href="../assets/css/components.css">
+  <script>
+    /* Застосовує збережену тему до відмальовування сторінки (без «мигання»). */
+    try { var t = localStorage.getItem('coworking:theme'); if (t === 'dark' || t === 'light') document.documentElement.dataset.theme = t; } catch (e) {}
+  </script>
 </head>
 <body>
   <header class="site-header">
     <div class="container site-header__inner">
       <a class="brand" href="index.html">Простір</a>
-      <nav aria-label="Основна навігація">
+      <div class="site-header__controls">
+        <button class="theme-toggle" type="button" aria-pressed="false">
+          <span class="theme-toggle__icon" aria-hidden="true"></span>
+          <span class="theme-toggle__label">Темна тема</span>
+        </button>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+          <span class="nav-toggle__icon" aria-hidden="true"></span>
+          <span class="nav-toggle__label">Меню</span>
+        </button>
+      </div>
+      <nav id="site-nav" aria-label="Основна навігація">
         <ul class="nav-list">
           <li><a href="index.html">Головна</a></li>
           <li><a href="catalog.html">Каталог</a></li>
@@ -54,5 +68,6 @@
       <p><small>© <time datetime="2026">2026</time> Простір. Навчальний проєкт.</small></p>
     </div>
   </footer>
+  <script type="module" src="../assets/js/main.js"></script>
 </body>
 </html>

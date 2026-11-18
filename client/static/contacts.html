@@ -17,12 +17,26 @@
   <link rel="stylesheet" href="../assets/css/reset.css">
   <link rel="stylesheet" href="../assets/css/base.css">
   <link rel="stylesheet" href="../assets/css/components.css">
+  <script>
+    /* Застосовує збережену тему до відмальовування сторінки (без «мигання»). */
+    try { var t = localStorage.getItem('coworking:theme'); if (t === 'dark' || t === 'light') document.documentElement.dataset.theme = t; } catch (e) {}
+  </script>
 </head>
 <body>
   <header class="site-header">
     <div class="container site-header__inner">
       <a class="brand" href="index.html">Простір</a>
-      <nav aria-label="Основна навігація">
+      <div class="site-header__controls">
+        <button class="theme-toggle" type="button" aria-pressed="false">
+          <span class="theme-toggle__icon" aria-hidden="true"></span>
+          <span class="theme-toggle__label">Темна тема</span>
+        </button>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+          <span class="nav-toggle__icon" aria-hidden="true"></span>
+          <span class="nav-toggle__label">Меню</span>
+        </button>
+      </div>
+      <nav id="site-nav" aria-label="Основна навігація">
         <ul class="nav-list">
           <li><a href="index.html">Головна</a></li>
           <li><a href="catalog.html">Каталог</a></li>
@@ -37,7 +51,7 @@
 
     <section aria-labelledby="contact-form-title">
       <h2 id="contact-form-title">Напишіть нам</h2>
-      <form class="form" action="contacts.html" method="get">
+      <form class="form" id="contact-form" action="contacts.html" method="get">
         <fieldset>
           <legend>Ваше повідомлення</legend>
           <p>
@@ -65,13 +79,16 @@
           <p>
             <label for="c-message">Повідомлення</label>
             <textarea id="c-message" name="message" rows="5" required minlength="10" maxlength="1000"></textarea>
+            <span class="field-counter" id="c-message-counter" aria-hidden="true"></span>
           </p>
         </fieldset>
         <p>
           <input type="checkbox" id="c-consent" name="consent" required>
           <label for="c-consent">Погоджуюсь на обробку персональних даних</label>
         </p>
-        <p><button class="button" type="submit">Надіслати</button></p>
+        <p><button class="button" id="contact-submit" type="submit">Надіслати</button></p>
+        <p class="form-note">Кнопка стане активною, коли всі обов’язкові поля заповнено коректно.</p>
+        <div id="contact-result" class="state" role="status" hidden></div>
       </form>
     </section>
 
@@ -102,5 +119,7 @@
       <p><small>© <time datetime="2026">2026</time> Простір. Навчальний проєкт.</small></p>
     </div>
   </footer>
+  <script type="module" src="../assets/js/main.js"></script>
+  <script type="module" src="../assets/js/contacts.js"></script>
 </body>
 </html>
