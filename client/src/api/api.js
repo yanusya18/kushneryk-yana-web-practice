@@ -1,82 +1,63 @@
 /**
- * api.js — єдине місце, де застосунок спілкується із сервером (REST API, ПР 8).
- * Компоненти й хуки викликають лише ці функції, тому знати про fetch їм не потрібно.
+ * api.js — єдине місце, де застосунок працює з даними.
  *
- * Демо-режими станів (для захисту та скриншотів), параметр у адресі сторінки:
- *   ?demo=loading — довге завантаження (3 с) · ?demo=error — імітація помилки · ?demo=empty — порожній список
+ * ПР 7: дані беремо з локальних JSON-файлів (client/assets/data/) через fetch,
+ *       а бронювання користувача зберігаємо в localStorage.
+ * ПР 8: тут з'явиться fetch до власного Express-API (VITE_API_URL).
+ *       Компоненти й хуки не зміняться, бо вони викликають лише ці функції.
+ *
+ * Демо-режими станів (для захисту та скриншотів), параметр у адресі:
+ *   ?demo=loading — довге завантаження (3 с)
+ *   ?demo=error   — імітація помилки мережі
+ *   ?demo=empty   — порожній список
  */
-import { API_URL } from '../config.js'
+import { dateFromToday } from '../utils/format.js'
+import { findConflict } from '../utils/booking.js'
 
-/**
- * ApiError — помилка запиту до API.
- *   code: 'NETWORK' (сервер недоступний) | 'VALIDATION' (400) | 'NOT_FOUND' (404) | 'CONFLICT' (409) | 'SERVER'
- *   errors:   [{ field, message }] — помилки полів від серверної валідації (400)
- *   conflict: { startTime, endTime } — з чим перетнулося бронювання (409)
- */
-export class ApiError extends Error {
-  constructor(message, { status, code, errors = [], conflict } = {}) {
-    super(message)
-    this.name = 'ApiError'
-    this.status = status
-    this.code = code
-    this.errors = errors
-    this.conflict = conflict
-  }
-}
+// ?url: Vite повертає адресу файлу (в розробці та у збірці), а fetch завантажує його
+import workspacesUrl from '../../assets/data/workspaces.json?url'
+import bookingsUrl from '../../assets/data/bookings.json?url'
 
-const CODE_BY_STATUS = { 400: 'VALIDATION', 404: 'NOT_FOUND', 409: 'CONFLICT' }
+const STORAGE_KEY = 'coworking:bookings'
+const MESSAGES_KEY = 'coworking:contact-messages'
 
-/**
- * request — універсальний запит: fetch + async/await.
- * fetch НЕ кидає помилку на 404/500 (лише при збої мережі), тому перевіряємо response.ok вручну.
- * 204 No Content — тіла немає, повертаємо null.
- */
-async function request(path, { method = 'GET', body } = {}) {
-  let response
-  try {
-    response = await fetch(`${API_URL}${path}`, {
-      method,
-      headers: body === undefined ? undefined : { 'Content-Type': 'application/json' },
-      body: body === undefined ? undefined : JSON.stringify(body),
-    })
-  } catch {
-    throw new ApiError('Не вдалося з’єднатися із сервером. Перевірте, чи запущено API (npm run dev у папці server).', {
-      code: 'NETWORK',
-    })
-  }
-
-  if (response.status === 204) return null
-
-  let data = null
-  try {
-    data = await response.json()
-  } catch {
-    /* тіла немає або воно не JSON */
-  }
-
-  if (!response.ok) {
-    throw new ApiError(data?.message ?? `Сервер відповів з помилкою ${response.status}`, {
-      status: response.status,
-      code: CODE_BY_STATUS[response.status] ?? 'SERVER',
-      errors: data?.errors ?? [],
-      conflict: data?.conflict,
-    })
-  }
-  return data
-}
-
-// ---------------------------------------------------------------------------
-// Демо-режими
-// ---------------------------------------------------------------------------
 const getDemoMode = () => new URLSearchParams(window.location.search).get('demo')
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
+
+/**
+ * Універсальний запит: fetch + async/await.
+ * fetch повертає Promise<Response> і НЕ кидає помилку на 404/500 —
+ * тому вручну перевіряємо response.ok.
+ */
+async function fetchJson(url) {
+  const response = await fetch(url)
+  if (!response.ok) {
+    throw new Error(`Сервер відповів з помилкою ${response.status}`)
+  }
+  return response.json()
+}
+
+/** Кеш Promise: JSON завантажується один раз, а паралельні виклики чекають на один запит. */
+const cache = new Map()
+function loadCached(key, url) {
+  if (!cache.has(key)) {
+    cache.set(
+      key,
+      fetchJson(url).catch((error) => {
+        cache.delete(key) // невдалий запит не кешуємо
+        throw error
+      }),
+    )
+  }
+  return cache.get(key)
+}
 
 async function applyDemoMode() {
   const demo = getDemoMode()
   if (demo === 'loading') await sleep(3000)
   if (demo === 'error') {
     await sleep(600)
-    throw new ApiError('Не вдалося з’єднатися із сервером (демо-режим).', { code: 'NETWORK' })
+    throw new Error('Не вдалося з’єднатися із сервером (демо-режим).')
   }
 }
 
@@ -84,61 +65,87 @@ async function applyDemoMode() {
 // Робочі місця
 // ---------------------------------------------------------------------------
 
-/** GET /api/items — усі активні місця. */
+/** Усі активні робочі місця. */
 export async function getWorkspaces() {
   await applyDemoMode()
   if (getDemoMode() === 'empty') return []
-  return request('/api/items')
+  const list = await loadCached('workspaces', workspacesUrl)
+  return list.filter((item) => item.isActive)
 }
 
-/** GET /api/items?includeInactive=true — усі місця (для сторінки керування). */
-export function getAllWorkspaces() {
-  return request('/api/items?includeInactive=true')
-}
-
-/** GET /api/items/:id — місце або null, якщо його немає. */
+/** Одне місце за id або null, якщо такого немає. */
 export async function getWorkspaceById(id) {
   await applyDemoMode()
-  try {
-    return await request(`/api/items/${id}`)
-  } catch (error) {
-    if (error.code === 'NOT_FOUND') return null
-    throw error
-  }
-}
-
-/** POST /api/items — створення місця. */
-export function createWorkspace(data) {
-  return request('/api/items', { method: 'POST', body: data })
-}
-
-/** DELETE /api/items/:id — видалення місця. */
-export function deleteWorkspace(id) {
-  return request(`/api/items/${id}`, { method: 'DELETE' })
+  const list = await loadCached('workspaces', workspacesUrl)
+  return list.find((item) => item.id === Number(id) && item.isActive) ?? null
 }
 
 // ---------------------------------------------------------------------------
 // Бронювання
 // ---------------------------------------------------------------------------
 
-/** GET /api/items/:id/availability?date= — зайняті проміжки (без персональних даних). */
-export function getBookingsFor(workspaceId, date) {
-  return request(`/api/items/${workspaceId}/availability?date=${encodeURIComponent(date)}`)
+function readStoredBookings() {
+  try {
+    const parsed = JSON.parse(localStorage.getItem(STORAGE_KEY) ?? '[]')
+    return Array.isArray(parsed) ? parsed : []
+  } catch {
+    return [] // localStorage недоступний або JSON пошкоджено
+  }
+}
+
+/** Демо-бронювання: дати задані зміщенням від сьогодні (dayOffset), щоб не «застарівали». */
+async function getSeedBookings() {
+  const seeds = await loadCached('bookings', bookingsUrl)
+  return seeds.map(({ dayOffset, ...rest }) => ({ ...rest, date: dateFromToday(dayOffset) }))
+}
+
+/** Підтверджені бронювання місця на дату (демо + збережені користувачем). */
+export async function getBookingsFor(workspaceId, date) {
+  const all = [...(await getSeedBookings()), ...readStoredBookings()]
+  return all
+    .filter((b) => b.workspaceId === Number(workspaceId) && b.date === date && b.status === 'confirmed')
+    .sort((a, b) => a.startTime.localeCompare(b.startTime))
 }
 
 /**
- * POST /api/bookings — створення бронювання.
- * Сервер сам перевіряє доступність і рахує вартість. Помилки: 400 (VALIDATION), 409 (CONFLICT).
+ * Створює бронювання. Доступність перевіряється ще раз прямо перед записом.
+ * Кидає Error з code === 'CONFLICT', якщо проміжок зайнятий.
  */
-export function createBooking(data) {
-  return request('/api/bookings', { method: 'POST', body: { ...data, consent: true } })
+export async function createBooking(data) {
+  const existing = await getBookingsFor(data.workspaceId, data.date)
+  const conflict = findConflict(existing, data.startTime, data.endTime)
+  if (conflict) {
+    const error = new Error(`Час уже заброньовано: ${conflict.startTime}–${conflict.endTime}.`)
+    error.code = 'CONFLICT'
+    throw error
+  }
+
+  const stored = readStoredBookings()
+  // Номер має бути унікальним серед УСІХ бронювань (демо + збережені), а не лише цього місця й дати
+  const seeds = await getSeedBookings()
+  const nextId = Math.max(1000, ...seeds.map((b) => b.id), ...stored.map((b) => b.id)) + 1
+  const booking = { ...data, id: nextId, status: 'confirmed', createdAt: new Date().toISOString() }
+  localStorage.setItem(STORAGE_KEY, JSON.stringify([...stored, booking]))
+  return booking
+}
+
+/** Видаляє лише бронювання, створені користувачем у цьому браузері. */
+export function clearStoredBookings() {
+  localStorage.removeItem(STORAGE_KEY)
 }
 
 // ---------------------------------------------------------------------------
-// Контактна форма
+// Контактна форма (до ПР 8 повідомлення зберігаються лише локально)
 // ---------------------------------------------------------------------------
 
-/** POST /api/contact — 201 при успіху, 400 з errors[] при помилках полів. */
-export function sendContactMessage(data) {
-  return request('/api/contact', { method: 'POST', body: { ...data, consent: true } })
+export async function sendContactMessage(data) {
+  let messages = []
+  try {
+    messages = JSON.parse(localStorage.getItem(MESSAGES_KEY) ?? '[]')
+  } catch {
+    messages = []
+  }
+  const message = { ...data, id: Date.now(), createdAt: new Date().toISOString() }
+  localStorage.setItem(MESSAGES_KEY, JSON.stringify([...messages, message]))
+  return message
 }

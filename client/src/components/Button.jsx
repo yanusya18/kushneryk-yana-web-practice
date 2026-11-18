@@ -4,12 +4,10 @@ import { Link } from 'react-router-dom'
  * Button — одна кнопка для всього сайту.
  *  • є prop `to`  → рендериться посилання React Router (<Link>), оформлене як кнопка;
  *  • немає `to`   → звичайна <button>.
- * variant: 'primary' (за замовчуванням) | 'secondary' | 'danger'; size: 'small' для компактних кнопок (напр., у таблиці).
+ * variant: 'primary' (за замовчуванням) | 'secondary'.
  */
-export default function Button({ to, variant = 'primary', size, type = 'button', children, ...props }) {
-  const className = ['button', variant !== 'primary' && `button--${variant}`, size === 'small' && 'button--small']
-    .filter(Boolean)
-    .join(' ')
+export default function Button({ to, variant = 'primary', type = 'button', children, ...props }) {
+  const className = variant === 'secondary' ? 'button button--secondary' : 'button'
 
   if (to) {
     return (

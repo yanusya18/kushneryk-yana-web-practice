@@ -5,10 +5,9 @@ import Button from './Button.jsx'
  * Modal — модальне вікно на нативному елементі <dialog>.
  * Браузер сам: блокує решту сторінки, тримає фокус усередині, закриває по Esc
  * і повертає фокус на елемент, що відкрив вікно.
- * Ми додаємо: керування через prop `open`, закриття кліком по підкладці
- * і необов'язковий prop `actions` — власні кнопки замість стандартної «Закрити».
+ * Ми додаємо: керування через prop `open` і закриття кліком по підкладці.
  */
-export default function Modal({ open, onClose, title, children, actions }) {
+export default function Modal({ open, onClose, title, children }) {
   const dialogRef = useRef(null)
   const titleId = useId()
 
@@ -28,13 +27,11 @@ export default function Modal({ open, onClose, title, children, actions }) {
     <dialog ref={dialogRef} className="modal" aria-labelledby={titleId} onClose={onClose} onClick={handleBackdropClick}>
       <h2 id={titleId}>{title}</h2>
       <div>{children}</div>
-      {actions ?? (
-        <p>
-          <Button onClick={onClose} autoFocus>
-            Закрити
-          </Button>
-        </p>
-      )}
+      <p>
+        <Button onClick={onClose} autoFocus>
+          Закрити
+        </Button>
+      </p>
     </dialog>
   )
 }

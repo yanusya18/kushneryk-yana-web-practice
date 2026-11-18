@@ -9,7 +9,6 @@ export default function Footer() {
             <li><Link to="/">Головна</Link></li>
             <li><Link to="/catalog">Каталог</Link></li>
             <li><Link to="/contacts">Контакти</Link></li>
-            <li><Link to="/manage">Керування місцями</Link></li>
           </ul>
         </nav>
         <address>

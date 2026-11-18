@@ -8,6 +8,13 @@ export function toDateString(date = new Date()) {
   return `${y}-${m}-${d}`
 }
 
+/** Додає дні до сьогодні й повертає YYYY-MM-DD. */
+export function dateFromToday(dayOffset) {
+  const date = new Date()
+  date.setDate(date.getDate() + dayOffset)
+  return toDateString(date)
+}
+
 /** «2026-11-20» → «20.11.2026» для показу користувачу. */
 export function formatDate(isoDate) {
   const [y, m, d] = isoDate.split('-')
