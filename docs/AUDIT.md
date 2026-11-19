@@ -8,10 +8,9 @@
 
 Оптимізації вже є в цьому проєкті, тому «до» знімаємо зі стану ПР 7 (тег `pr-07`), а «після» — з поточного.
 
-### Звіт «до» (стан ПР 7)
+### Звіт «до» (без оптимізацій ПР 9)
+Оптимізації вже є в проєкті, тому «до» знімайте зі збірки без них — розпакуйте окремо архів `coworking-pr-07.zip` (стан після ПР 7) в іншу папку:
 ```bash
-git stash            # якщо є незакомічені зміни
-git checkout pr-07
 cd client
 npm install
 npm run build
@@ -23,15 +22,8 @@ npm run preview      # відкриє http://localhost:4173
 4. У Performance запишіть **LCP, CLS, INP/TBT** (INP у Lighthouse навігації відсутній — використовуйте TBT як проксі, а INP виміряйте у DevTools → Performance → Interactions або розширенням *Web Vitals*).
 5. Для «Slow 4G»: DevTools → Network → Throttling → **Slow 4G**, перезавантажте сторінку й запишіть час завантаження.
 
-### Звіт «після» (поточний стан)
-```bash
-git checkout main    # або вашу гілку з ПР 9
-cd client
-npm install
-npm run build
-npm run preview
-```
-Повторіть ті самі кроки; збережіть `docs/lighthouse/after-home.html`, `after-catalog.html`.
+### Звіт «після» (поточний стан проєкту)
+Зробіть ті самі кроки в папці поточного проєкту (`npm install`, `npm run build`, `npm run preview`); збережіть `docs/lighthouse/after-home.html`, `after-catalog.html`.
 
 > Запускайте **production-збірку** (`build` + `preview`), а не `npm run dev`: dev-режим не мініфікований, і Performance буде занижений.
 
@@ -127,9 +119,9 @@ npm run preview
 
 ## 6. Знайдені дефекти
 
-Кожен баг із чек-листа (`docs/TEST-CHECKLIST.md`) оформіть як **GitHub Issue** (мітка `bug`): кроки відтворення, очікуваний і фактичний результат, скриншот. Занесіть їх номери сюди:
+Кожен баг із чек-листа (`docs/TEST-CHECKLIST.md`) опишіть: кроки відтворення, очікуваний і фактичний результат, скриншот, що виправлено. Занесіть їх сюди:
 
-| № Issue | Опис | Статус |
+| № | Опис дефекту | Статус |
 |---|---|---|
 | | | |
 

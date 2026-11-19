@@ -24,7 +24,36 @@ export class ApiError extends Error {
   }
 }
 
-const CODE_BY_STATUS = { 400: 'VALIDATION', 404: 'NOT_FOUND', 409: 'CONFLICT' }
+const CODE_BY_STATUS = { 400: 'VALIDATION', 401: 'UNAUTHORIZED', 404: 'NOT_FOUND', 409: 'CONFLICT' }
+
+// Токен адміністратора (ПР 10): зберігається лише на час сесії вкладки, у репозиторій і збірку не потрапляє
+const ADMIN_TOKEN_KEY = 'coworking:admin-token'
+
+export function getAdminToken() {
+  try {
+    return sessionStorage.getItem(ADMIN_TOKEN_KEY) ?? ''
+  } catch {
+    return '' // sessionStorage недоступний (приватний режим)
+  }
+}
+
+export function setAdminToken(token) {
+  try {
+    if (token) sessionStorage.setItem(ADMIN_TOKEN_KEY, token)
+    else sessionStorage.removeItem(ADMIN_TOKEN_KEY)
+  } catch {
+    /* ігноруємо */
+  }
+}
+
+/** Заголовки запиту: JSON для тіла + токен адміністратора для запитів, що змінюють дані. */
+function buildHeaders({ method, hasBody }) {
+  const headers = {}
+  if (hasBody) headers['Content-Type'] = 'application/json'
+  const token = getAdminToken()
+  if (token && method !== 'GET') headers['X-Admin-Token'] = token
+  return Object.keys(headers).length > 0 ? headers : undefined
+}
 
 /**
  * request — універсальний запит: fetch + async/await.
@@ -36,7 +65,7 @@ async function request(path, { method = 'GET', body } = {}) {
   try {
     response = await fetch(`${API_URL}${path}`, {
       method,
-      headers: body === undefined ? undefined : { 'Content-Type': 'application/json' },
+      headers: buildHeaders({ method, hasBody: body !== undefined }),
       body: body === undefined ? undefined : JSON.stringify(body),
     })
   } catch {

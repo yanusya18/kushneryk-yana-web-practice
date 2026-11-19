@@ -1,0 +1,56 @@
+# CI: автоматична перевірка кожного оновлення main та кожного Pull Request.
+# Деплой виконують самі платформи (Vercel для клієнта, Render для API) — вони підключені до цього репозиторію.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  client:
+    name: Клієнт (lint, тести, збірка)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: client
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: client/package-lock.json
+      - run: npm ci
+      - run: npm run lint
+      - run: npm test
+      - run: npm run build
+        env:
+          VITE_API_URL: https://example.invalid
+
+  server:
+    name: Сервер (запуск і health-check)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: server
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: server/package-lock.json
+      - run: npm ci
+      - name: Запуск API та перевірка /api/health
+        env:
+          PORT: 3055
+          NODE_ENV: production
+          DATA_FILE: data/ci-db.json
+        run: |
+          node src/index.js &
+          for i in 1 2 3 4 5 6 7 8 9 10; do
+            curl -fsS http://localhost:3055/api/health && exit 0
+            sleep 1
+          done
+          echo "API не відповіло на /api/health" && exit 1

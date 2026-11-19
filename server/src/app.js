@@ -5,6 +5,7 @@
  */
 import cors from 'cors'
 import express from 'express'
+import { createOriginChecker } from './middleware/cors.js'
 import { createErrorHandler } from './middleware/errorHandler.js'
 import { notFound } from './middleware/notFound.js'
 import { requestLogger } from './middleware/requestLogger.js'
@@ -22,7 +23,7 @@ export function createApp({ store, config, clock = () => new Date() }) {
 
   // CORS: браузер дозволяє сторінці з одного походження (localhost:5173) читати відповіді
   // іншого (localhost:3001) лише якщо сервер надішле заголовок Access-Control-Allow-Origin.
-  app.use(cors({ origin: config.corsOrigins }))
+  app.use(cors({ origin: createOriginChecker(config.corsOrigins) }))
 
   app.use(express.json({ limit: '100kb' }))
 

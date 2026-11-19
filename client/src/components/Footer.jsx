@@ -13,9 +13,9 @@ export default function Footer() {
           </ul>
         </nav>
         <address>
-          <a href="mailto:hello@example.com">hello@example.com</a>
+          <a href="mailto:yana.kushneryk.volod@fclnup.if.ua">yana.kushneryk.volod@fclnup.if.ua</a>
           <br />
-          <a href="tel:+380000000000">+380 00 000 00 00</a>
+          <a href="tel:+380951786891">+380951786891</a>
         </address>
         <p>
           <small>
