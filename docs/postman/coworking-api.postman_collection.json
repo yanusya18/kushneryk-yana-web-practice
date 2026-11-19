@@ -20,6 +20,10 @@
     {
       "key": "tomorrow",
       "value": ""
+    },
+    {
+      "key": "adminToken",
+      "value": ""
     }
   ],
   "item": [
@@ -193,6 +197,12 @@
           {
             "key": "Content-Type",
             "value": "application/json"
+          },
+          {
+            "key": "X-Admin-Token",
+            "value": "{{adminToken}}",
+            "type": "text",
+            "description": "Потрібен, якщо на сервері задано ADMIN_TOKEN"
           }
         ],
         "url": {
@@ -239,6 +249,12 @@
           {
             "key": "Content-Type",
             "value": "application/json"
+          },
+          {
+            "key": "X-Admin-Token",
+            "value": "{{adminToken}}",
+            "type": "text",
+            "description": "Потрібен, якщо на сервері задано ADMIN_TOKEN"
           }
         ],
         "url": {
@@ -283,6 +299,12 @@
           {
             "key": "Content-Type",
             "value": "application/json"
+          },
+          {
+            "key": "X-Admin-Token",
+            "value": "{{adminToken}}",
+            "type": "text",
+            "description": "Потрібен, якщо на сервері задано ADMIN_TOKEN"
           }
         ],
         "url": {
@@ -324,7 +346,14 @@
       "name": "09. DELETE /api/items/:id — видалити (204)",
       "request": {
         "method": "DELETE",
-        "header": [],
+        "header": [
+          {
+            "key": "X-Admin-Token",
+            "value": "{{adminToken}}",
+            "type": "text",
+            "description": "Потрібен, якщо на сервері задано ADMIN_TOKEN"
+          }
+        ],
         "url": {
           "raw": "{{baseUrl}}/api/items/{{createdId}}",
           "host": [
@@ -355,7 +384,14 @@
       "name": "10. DELETE /api/items/:id — повторно (404)",
       "request": {
         "method": "DELETE",
-        "header": [],
+        "header": [
+          {
+            "key": "X-Admin-Token",
+            "value": "{{adminToken}}",
+            "type": "text",
+            "description": "Потрібен, якщо на сервері задано ADMIN_TOKEN"
+          }
+        ],
         "url": {
           "raw": "{{baseUrl}}/api/items/{{createdId}}",
           "host": [
@@ -697,6 +733,12 @@
           {
             "key": "Content-Type",
             "value": "application/json"
+          },
+          {
+            "key": "X-Admin-Token",
+            "value": "{{adminToken}}",
+            "type": "text",
+            "description": "Потрібен, якщо на сервері задано ADMIN_TOKEN"
           }
         ],
         "url": {
