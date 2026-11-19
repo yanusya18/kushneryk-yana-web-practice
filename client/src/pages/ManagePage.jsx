@@ -1,6 +1,7 @@
 import { useState } from 'react'
-import { deleteWorkspace, getAllWorkspaces } from '../api/api.js'
+import { deleteWorkspace, getAdminToken, getAllWorkspaces, setAdminToken } from '../api/api.js'
 import Button from '../components/Button.jsx'
+import FormField from '../components/FormField.jsx'
 import Modal from '../components/Modal.jsx'
 import StateMessage from '../components/StateMessage.jsx'
 import WorkspaceForm from '../components/WorkspaceForm.jsx'
@@ -12,7 +13,8 @@ import { TYPE_LABELS } from '../utils/format.js'
  * ManagePage — керування місцями через API (CRUD з інтерфейсу):
  *   • додавання (POST /api/items) — WorkspaceForm;
  *   • видалення (DELETE /api/items/:id) — кнопка в таблиці + підтвердження в модальному вікні.
- * Навчальний проєкт: сторінка без авторизації (у справжньому сайті вона була б лише для адміністратора).
+ * Якщо на сервері задано ADMIN_TOKEN, для змін потрібен токен адміністратора (поле нижче; зберігається лише в sessionStorage).
+ * Повноцінної авторизації (акаунти, сесії) в навчальному проєкті немає.
  */
 export default function ManagePage() {
   // Службова сторінка без авторизації — не повинна потрапляти в пошукову видачу (noindex)
@@ -21,6 +23,12 @@ export default function ManagePage() {
   const [notice, setNotice] = useState(null) // { type: 'success' | 'error', text }
   const [toDelete, setToDelete] = useState(null) // місце, видалення якого підтверджується
   const [deleting, setDeleting] = useState(false)
+  const [adminToken, setAdminTokenState] = useState(getAdminToken)
+
+  function handleTokenChange(event) {
+    setAdminTokenState(event.target.value)
+    setAdminToken(event.target.value)
+  }
 
   function handleCreated(created) {
     setNotice({ type: 'success', text: `Місце «${created.name}» додано (id ${created.id}).` })
@@ -53,6 +61,19 @@ export default function ManagePage() {
           <p>{notice.text}</p>
         </StateMessage>
       )}
+
+      <section aria-labelledby="access-title">
+        <h2 id="access-title">Доступ адміністратора</h2>
+        <p>Якщо на сервері задано токен, введіть його, щоб додавати й видаляти місця. Токен зберігається лише до закриття вкладки.</p>
+        <FormField
+          label="Токен адміністратора"
+          name="adminToken"
+          type="password"
+          autoComplete="off"
+          value={adminToken}
+          onChange={handleTokenChange}
+        />
+      </section>
 
       <section aria-labelledby="add-title">
         <h2 id="add-title">Додати місце</h2>
