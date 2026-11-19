@@ -7,9 +7,12 @@
  *   POST   /api/items                    створити
  *   PUT    /api/items/:id                повністю замінити
  *   DELETE /api/items/:id                видалити
+ *
+ * POST, PUT і DELETE захищені токеном адміністратора, якщо в середовищі задано ADMIN_TOKEN (ПР 10).
  */
 import { Router } from 'express'
 import { HttpError, validationError } from '../errors.js'
+import { requireAdmin } from '../middleware/requireAdmin.js'
 import { nowInTimezone } from '../utils/time.js'
 import { parseId } from '../validation/common.js'
 import { validateAvailabilityDate } from '../validation/booking.js'
@@ -25,6 +28,7 @@ const sameName = (a, b) => a.trim().toLowerCase() === b.trim().toLowerCase()
 
 export function itemsRouter({ store, clock, config }) {
   const router = Router()
+  const adminOnly = requireAdmin(config) // без ADMIN_TOKEN у .env перевірка вимкнена
 
   // ---------- GET /api/items ----------
   router.get('/', async (req, res) => {
@@ -76,7 +80,7 @@ export function itemsRouter({ store, clock, config }) {
   })
 
   // ---------- POST /api/items ----------
-  router.post('/', async (req, res) => {
+  router.post('/', adminOnly, async (req, res) => {
     const { value, errors } = validateItem(req.body)
     if (errors.length > 0) throw validationError('Некоректні дані робочого місця.', errors)
 
@@ -92,7 +96,7 @@ export function itemsRouter({ store, clock, config }) {
   })
 
   // ---------- PUT /api/items/:id (повна заміна; ідемпотентний) ----------
-  router.put('/:id', async (req, res) => {
+  router.put('/:id', adminOnly, async (req, res) => {
     const id = requireId(req.params.id)
     const { value, errors } = validateItem(req.body)
     if (errors.length > 0) throw validationError('Некоректні дані робочого місця.', errors)
@@ -110,7 +114,7 @@ export function itemsRouter({ store, clock, config }) {
   })
 
   // ---------- DELETE /api/items/:id ----------
-  router.delete('/:id', async (req, res) => {
+  router.delete('/:id', adminOnly, async (req, res) => {
     const id = requireId(req.params.id)
     const today = nowInTimezone(config.timezone, clock()).date
 
