@@ -1,95 +1,132 @@
-# Сайт коворкінгу — навчальна практика «WEB-технології та WEB-дизайн»
+# Простір — сайт коворкінгу
 
-> Статус: **ПР 9 — тестування, Lighthouse, SEO, доступність** (поточний етап; ПР 1–8 виконано).
+Вебсайт коворкінгу, де користувач переглядає робочі місця, дивиться ціни й **бронює місце на конкретну дату й час**.
+Навчальний проєкт повного циклу (практика «WEB-технології та WEB-дизайн», варіант №1) — від технічного завдання
+й макетів у Figma до опублікованого сайту з React-фронтендом і Node.js API.
 
-Навчальний веб-проєкт повного циклу: сайт коворкінгу, де користувач переглядає
-робочі місця, обирає місце та **бронює його на конкретну дату й час**.
+**Автор:** Кушнерик Яна · **Версія:** 1.0.0
 
-- Автор: Кушнерик Яна
-- Варіант: №1 — «Сайт коворкінгу» (основна сутність — *робоче місце*)
-- Обов'язкова функція: бронювання на дату та час
+## Посилання
 
-## Стек (за планом практики)
-
-| Етап | Технології |
+| | |
 |---|---|
-| ПР 2–3 | Figma / FigJam |
-| ПР 4 | HTML5 |
-| ПР 5 | CSS3, Flexbox, Grid, Tailwind CSS |
-| ПР 6 | JavaScript ES6+ (без бібліотек) |
-| ПР 7 | React + Vite, React Router |
-| ПР 8 | Node.js, Express, REST API, JSON |
-| ПР 9–10 | Vitest, Lighthouse, Vercel/Netlify, PWA |
+| 🌐 Сайт | _вставте URL з Vercel_ |
+| ⚙️ API | _вставте URL з Render_ (перевірка: `/api/health`) |
+| 🎨 Figma | _вставте посилання (доступ «can view»)_ |
 
-## Структура репозиторію
+## Можливості
+
+- Каталог місць із пошуком, фільтром за типом і ціною, сортуванням
+- Сторінка місця: фото, обладнання, зайняті години на обрану дату
+- **Бронювання на дату й час** з перевіркою доступності, підрахунком вартості й підтвердженням; на сервері — заборона подвійного бронювання
+- Контактна форма з валідацією на клієнті та сервері
+- Сторінка керування місцями (додавання/видалення через API, захищена токеном)
+- Адаптивна верстка (360 / 768 / 1280 px), світла й темна теми
+- Доступність (skip-link, клавіатура, ARIA), SEO (title/description по маршрутах, JSON-LD, sitemap)
+- PWA: встановлюється як застосунок, офлайн-сторінка
+
+## Скриншоти
+
+| Головна | Каталог |
+|---|---|
+| ![Головна](docs/screenshots/home-desktop.png) | ![Каталог](docs/screenshots/catalog-desktop.png) |
+
+| Бронювання | Мобільна версія |
+|---|---|
+| ![Бронювання](docs/screenshots/booking-desktop.png) | ![Mobile](docs/screenshots/home-mobile.png) |
+
+## Технології
+
+| Шар | Стек |
+|---|---|
+| Дизайн | Figma / FigJam, дизайн-токени, світла й темна теми |
+| Верстка | HTML5, CSS3 (Flexbox, Grid, mobile-first), Tailwind CSS (одна сторінка для порівняння) |
+| Клієнт | React 19, Vite, React Router, власні хуки, JavaScript ES6+ |
+| Сервер | Node.js 20.11+, Express 5, REST API, JSON-сховище |
+| Якість | Vitest, React Testing Library, Lighthouse, axe DevTools, GitHub Actions |
+| Публікація | Vercel (клієнт), Render (API), PWA (service worker) |
+
+## Структура
 
 ```
 kushneryk-yana-web-practice/
 ├── client/
-│   ├── src/       # React-застосунок: components, pages, hooks, utils, api (ПР 7)
-│   ├── static/    # статичні HTML-сторінки (ПР 4–6)
-│   ├── assets/    # зображення, favicon, css/ (ПР 5), js/ і data/ (ПР 6)
-│   └── tailwind/  # збірка Tailwind для однієї сторінки (ПР 5)
-├── server/        # Node.js + Express REST API (src/, data/, scripts/) (ПР 8)
-├── docs/          # документація: TZ.md, UX.md, API.md, AI.md, AUDIT.md ...
-├── .gitignore
+│   ├── src/        # React-застосунок: components, pages, hooks, utils, api
+│   ├── public/     # manifest, іконки, sw.js, offline.html, robots.txt, sitemap.xml
+│   ├── assets/     # зображення (AVIF/WebP/JPG), CSS-токени й стилі, дані
+│   ├── static/     # статичні HTML-сторінки (ПР 4–6)
+│   ├── scripts/    # генерація robots.txt і sitemap.xml
+│   └── vercel.json · netlify.toml
+├── server/         # Express API: src/ (routes, validation, middleware), data/, scripts/
+├── docs/           # документація (див. нижче)
+├── .github/workflows/ci.yml
+├── render.yaml     # опис сервісу API для Render
 ├── LICENSE
 └── README.md
 ```
 
-## Документація
+## Запуск локально
 
-- [Технічне завдання](docs/TZ.md)
-- [Outline головної сторінки](docs/HTML-OUTLINE.md) · [Перевірка HTML](docs/VALIDATION.md)
-- [JavaScript: архітектура, запуск, сценарії](docs/JS-GUIDE.md)
-- [Дизайн-токени](docs/DESIGN-TOKENS.md) · [CSS vs Tailwind](docs/CSS-VS-TAILWIND.md) · [Скриншоти](docs/SCREENSHOTS-PR5.md)
-- [Дерево компонентів](docs/COMPONENT-TREE.md) · [AI-асистент](docs/AI.md)
-- [REST API](docs/API.md) · [Тестування в Postman](docs/POSTMAN.md)
-- [Аудит: Lighthouse, SEO, a11y (ПР 9)](docs/AUDIT.md) · [Чек-лист ручного тестування](docs/TEST-CHECKLIST.md)
-- Беклог задач: GitHub Projects + Issues (див. `docs/ISSUES.md`)
+Потрібен [Node.js](https://nodejs.org) 20.11 або новіший. Потрібні **два термінали**.
 
-## Запуск
-
-Потрібен [Node.js](https://nodejs.org) 20.11+. Потрібні **два термінали**: сервер і клієнт.
-
-**1. Сервер (API)** — `http://localhost:3001`
+**1. API** — `http://localhost:3001`
 ```bash
 cd server
 npm install
 cp .env.example .env      # Windows (cmd): copy .env.example .env
-npm run dev               # розробка з автоперезапуском; npm start — звичайний запуск
+npm run dev               # npm start — звичайний запуск; npm run reset-db — скинути дані
 ```
-Перевірка: відкрийте `http://localhost:3001/api/health` → `{"status":"ok"}`.
-Скинути дані до початкових: `npm run reset-db`.
+Перевірка: `http://localhost:3001/api/health` → `{"status":"ok"}`
 
-**2. Клієнт (React)** — `http://localhost:5173`
+**2. Клієнт** — `http://localhost:5173`
 ```bash
 cd client
 npm install
-cp .env.example .env      # адреса API: VITE_API_URL=http://localhost:3001
+cp .env.example .env      # VITE_API_URL=http://localhost:3001
 npm run dev
 ```
-Інші команди клієнта: `npm run build` (спершу генерує `robots.txt` і `sitemap.xml`) · `npm run preview` · `npm run lint` · `npm test` (автотести Vitest; перед першим запуском встановіть dev-залежності — див. `docs/AUDIT.md`).
 
-Маршрути сайту: `/` · `/catalog` · `/items/:id` · `/contacts` · `/manage` (додавання й видалення місць) · інші адреси → 404.
+Інші команди клієнта:
+
+| Команда | Що робить |
+|---|---|
+| `npm run build` | production-збірка (перед нею створює `robots.txt` і `sitemap.xml`) |
+| `npm run preview` | перегляд збірки на `http://localhost:4173` (тут працює PWA) |
+| `npm run lint` | перевірка коду |
+| `npm test` | автотести (перед першим запуском встановіть dev-залежності — `docs/AUDIT.md`, розділ 7) |
+
+Маршрути: `/` · `/catalog` · `/items/:id` · `/contacts` · `/manage` · інші адреси → 404.
 Демо-режими станів: `?demo=loading`, `?demo=error`, `?demo=empty`.
-Документація API: [docs/API.md](docs/API.md).
 
-### Статична версія (ПР 4–6)
-Лишилась у `client/static/`. Відкривайте **через сервер** (Live Server або `npm run dev` → `/static/index.html`):
-з `file://` браузер блокує JavaScript-модулі.
+### Змінні середовища
 
-### Tailwind (лише для перебудови `tailwind.css`)
-```bash
-cd client/tailwind
-npm install
-npm run build
-```
+| Файл | Змінна | Призначення |
+|---|---|---|
+| `server/.env` | `PORT`, `CORS_ORIGIN`, `DATA_FILE`, `TIMEZONE`, `NODE_ENV` | налаштування API |
+| `server/.env` | `ADMIN_TOKEN` | токен для додавання/видалення місць (локально можна порожнім) |
+| `client/.env` | `VITE_API_URL` | адреса API |
+| хостинг | `SITE_URL`, `VITE_SITE_URL` | адреса сайту для sitemap і canonical |
 
-## Посилання
+Файли `.env` не потрапляють у репозиторій; шаблони — `.env.example`.
 
-- Деплой: _буде додано в ПР 10_
-- Figma: _буде додано в ПР 2_
+## Публікація
+
+Клієнт — Vercel, API — Render, обидва з автодеплоєм із `main`. Покрокова інструкція, таблиці змінних, перевірка PWA й безпека секретів — у [docs/DEPLOY.md](docs/DEPLOY.md).
+
+## Документація
+
+- [Технічне завдання](docs/TZ.md)
+- [Публікація та PWA](docs/DEPLOY.md)
+- [REST API](docs/API.md) · [Тестування в Postman](docs/POSTMAN.md)
+- [Аудит: Lighthouse, SEO, a11y](docs/AUDIT.md) · [Чек-лист ручного тестування](docs/TEST-CHECKLIST.md)
+- [Дерево компонентів](docs/COMPONENT-TREE.md) · [AI-асистент](docs/AI.md)
+- [Дизайн-токени](docs/DESIGN-TOKENS.md) · [CSS vs Tailwind](docs/CSS-VS-TAILWIND.md)
+- [Структура HTML](docs/HTML-OUTLINE.md) · [Перевірка HTML](docs/VALIDATION.md) · [JavaScript-модулі статичної версії](docs/JS-GUIDE.md)
+- [Презентація й сценарій демонстрації](docs/PRESENTATION.md) · [Опис релізу v1.0.0](docs/RELEASE-v1.0.0.md)
+
+## Контакти
+
+yana.kushneryk.volod@fclnup.if.ua · +380951786891
 
 ## Ліцензія
 
