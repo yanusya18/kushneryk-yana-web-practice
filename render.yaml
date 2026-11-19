@@ -1,0 +1,24 @@
+# Blueprint для Render: створює веб-сервіс API з папки server/
+# Render → New → Blueprint → оберіть репозиторій. Автодеплой — після кожного оновлення гілки main.
+services:
+  - type: web
+    name: coworking-api
+    runtime: node
+    rootDir: server
+    plan: free
+    branch: main
+    autoDeploy: true
+    buildCommand: npm ci
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: TIMEZONE
+        value: Europe/Kyiv
+      # Адреса сайту на Vercel (+ за потреби https://*.vercel.app для preview). Вводиться вручну в панелі Render.
+      - key: CORS_ORIGIN
+        sync: false
+      # Токен адміністратора для /manage: Render згенерує випадкове значення; його видно в панелі Render → Environment.
+      - key: ADMIN_TOKEN
+        generateValue: true
