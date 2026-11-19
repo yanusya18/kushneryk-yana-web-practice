@@ -2,6 +2,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import App from './App.jsx'
+import { registerServiceWorker } from './registerServiceWorker.js'
 
 // Дизайн-система з ПР 5 (токени, reset, база, компоненти) підключається без змін
 import '../assets/css/tokens.css'
@@ -20,3 +21,6 @@ createRoot(document.getElementById('root')).render(
     </BrowserRouter>
   </StrictMode>,
 )
+
+// PWA (ПР 10): кешування статики й офлайн-сторінка; лише у production
+registerServiceWorker()
